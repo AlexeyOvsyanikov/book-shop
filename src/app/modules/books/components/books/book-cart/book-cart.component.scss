@@ -1,0 +1,19 @@
+@import "../../../../../common/modules/layout/style.scss";
+
+.short-book-description{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.book-image{
+  background-image: url('https://pngicon.ru/file/uploads/Book3.png');
+  width: 256px;
+  height: 256px
+}
+
+.book-title{
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+}

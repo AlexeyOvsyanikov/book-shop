@@ -1,0 +1,9 @@
+<div class="d-flex content-center">
+  <a class="book-title" routerLink="{{book.id}}">{{book.title}}</a>
+</div>
+<div class="book-image"></div>
+<div class="short-book-description">{{book.description}}</div>
+<div class="d-flex align-items-center space-between">
+  <span>Price: {{book.price | number:'2.2'}}</span>
+  <button mat-raised-button color="primary">Add to cart</button>
+</div>
