@@ -1,0 +1,22 @@
+<h2 style="text-align: center">Authors</h2>
+
+<div style="display: flex; justify-content: center;">
+
+  <div style="width: 35%;">
+    <mat-list >
+      <ng-container *ngFor="let author of authors">
+        <mat-list-item style="color: black;" >
+          <span>{{author.first_name}} {{author.last_name}}</span>
+          <mat-divider style="border-top-color: black"></mat-divider>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+
+    <mat-paginator [length]="meta.records"
+                   [pageSize]="meta.limit"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="pageChanged($event)">
+    </mat-paginator>
+  </div>
+
+</div>
