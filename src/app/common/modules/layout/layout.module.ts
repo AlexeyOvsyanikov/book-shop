@@ -1,4 +1,3 @@
-import { CartModule } from './../../../modules/cart/cart.module';
 import { AppRoutingModule } from '../../../app-routing.module';
 
 import { GenresRoutingModuleModule } from './../../../modules/genres/genres-routing-module.module';
@@ -8,6 +7,7 @@ import { BookRoutingModuleModule } from './../../../modules/books/book-routing-m
 import { AuthorsModule } from './../../../modules/authors/authors.module';
 import { GenresModule } from './../../../modules/genres/genres.module';
 import { BookModule } from './../../../modules/books/book.module';
+import { CartModule } from './../../../modules/cart/cart.module';
 
 import { RouterModule } from '@angular/router';
 
@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HeaderComponent } from './components/header/header.component';
 import { ContentComponent } from './components/content/content.component';
@@ -50,6 +51,7 @@ import { BookShopComponent } from './components/book-shop/book-shop.component';
     MatIconModule,
     MatButtonModule,
     MatBadgeModule,
+    MatDialogModule,
 
   ],
   exports:[

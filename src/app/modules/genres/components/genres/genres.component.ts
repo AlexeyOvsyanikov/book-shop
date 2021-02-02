@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-import { GenresService } from '../../services/genres/genres.service';
-import { IGenre } from '../../interface/genre.interface';
-import { IMeta } from '../../../../common/interface/meta.interface';
+import { GenresService } from '@app/modules/genres/services/genres/genres.service';
+import { IGenre } from '@app/modules/genres/interface/genre.interface';
+import { IMeta } from '@app/common/interface/meta.interface';
 
 import { PageEvent } from '@angular/material/paginator';
 

@@ -10,4 +10,5 @@ export interface IBook {
   image: string;
   writing_date: string;
   release_date: string;
+  isInCart: boolean;
 }

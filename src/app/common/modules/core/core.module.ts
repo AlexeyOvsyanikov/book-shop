@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule , HTTP_INTERCEPTORS} from '@angular/common/http';
 
-import { ApiInterceptor } from '../../interceptors/api.interceptor';
+import { ApiInterceptor } from '@app/common/interceptors/api.interceptor';
 
-import { LayoutModule } from '../layout/layout.module';
-import { AppRoutingModule } from '../../../app-routing.module';
+import { LayoutModule } from '@app/common/modules/layout/layout.module';
+import { AppRoutingModule } from '@app/app-routing.module';
 
 @NgModule({
   declarations: [],
@@ -17,12 +17,12 @@ import { AppRoutingModule } from '../../../app-routing.module';
     AppRoutingModule,
     LayoutModule,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
-      multi: true
-    }
-  ],
+  // providers: [
+  //   {
+  //     provide: HTTP_INTERCEPTORS,
+  //     useClass: ApiInterceptor,
+  //     multi: true
+  //   }
+  // ],
 })
 export class CoreModule { }

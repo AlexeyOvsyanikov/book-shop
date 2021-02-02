@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { PageEvent } from '@angular/material/paginator';
 
-import { IMeta } from '../../../../common/interface/meta.interface';
-import { IAuthor } from '../../interface/author.interface';
-import { AuthorsService } from '../../services/authors/authors.service';
+import { IMeta } from '@app/common/interface/meta.interface';
+import { IAuthor } from '@app/modules/authors/interface/author.interface';
+import { AuthorsService } from '@app/modules/authors/services/authors/authors.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 

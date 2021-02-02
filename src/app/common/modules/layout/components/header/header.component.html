@@ -9,8 +9,8 @@
       <a mat-button routerLink="books">Books</a>
     </div>
 
-    <div class="cart" style="margin-top: 10px;">
-      <mat-icon matBadge="15" matBadgeColor="warn">shopping_cart</mat-icon>
+    <div (click)="openCart()" class="cart" style="margin-top: 10px;">
+      <mat-icon matBadge="{{cart.cartItems.length}}" matBadgeColor="warn">shopping_cart</mat-icon>
     </div>
 
   </div>
