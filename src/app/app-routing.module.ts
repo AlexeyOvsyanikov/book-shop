@@ -1,22 +1,28 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import { GenresComponent } from './modules/genres/components/genres/genres.component';
-import { AuthorsComponent } from './modules/authors/components/authors/authors.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
     path: 'genres',
-    component: GenresComponent,
+    loadChildren: () => import('./modules/genres/genres-routing-module.module').then(m => m.GenresRoutingModuleModule)
   },
   {
     path: 'authors',
-    component: AuthorsComponent,
+    loadChildren: () => import('./modules/authors/authors-routing-module.module').then(m => m.AuthorsRoutingModuleModule)
+  },
+  {
+    path: 'books',
+    loadChildren: () => import('./modules/books/book-routing-module.module').then(m => m.BookRoutingModuleModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule {
 }

@@ -1,4 +1,4 @@
-import { Genre } from '../../genres/entity/Genre';
+import { IGenre } from '../../genres/interface/genre.interface';
 
 export interface IBook {
   id: number;
@@ -6,7 +6,7 @@ export interface IBook {
   description: string;
   author_id: number;
   price: number;
-  genres: Genre[];
+  genres: IGenre[];
   image: string;
   writing_date: string;
   release_date: string;

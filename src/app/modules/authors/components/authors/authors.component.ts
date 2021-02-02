@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Meta } from '../../../../common/entity/ApiResponse';
-import { PageEvent } from '@angular/material/paginator';
-import { Author } from '../../entity/Author';
-import { AuthorsService } from '../../services/authors.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
+import { PageEvent } from '@angular/material/paginator';
+
+import { IMeta } from '../../../../common/interface/meta.interface';
+import { IAuthor } from '../../interface/author.interface';
+import { AuthorsService } from '../../services/authors/authors.service';
+
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-authors',
   templateUrl: './authors.component.html',
@@ -11,8 +16,8 @@ import { AuthorsService } from '../../services/authors.service';
 })
 export class AuthorsComponent implements OnInit {
 
-  authors!: Author[];
-  meta!: Meta;
+  authors!: IAuthor[];
+  meta!: IMeta;
 
   pageSizeOptions: number[] = [5, 10];
 
@@ -23,6 +28,9 @@ export class AuthorsComponent implements OnInit {
   ngOnInit(): void {
 
     this.authorsService.getAuthors()
+      .pipe(
+        untilDestroyed(this)
+      )
       .subscribe( response => {
         this.authors = response.authors || [];
         this.meta = response.meta;
@@ -33,6 +41,9 @@ export class AuthorsComponent implements OnInit {
   pageChanged(pageEvent: PageEvent): void {
 
     this.authorsService.getAuthors(pageEvent.pageIndex + 1, pageEvent.pageSize)
+      .pipe(
+        untilDestroyed(this)
+      )
       .subscribe( response => {
         this.authors = response.authors || [];
         this.meta = response.meta;

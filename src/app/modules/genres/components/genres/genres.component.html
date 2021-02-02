@@ -1,6 +1,6 @@
 <h2 style="text-align: center">Genres</h2>
 
-<div style="display: flex; justify-content: center;">
+<div *ngIf="genres && genres.length > 0" style="display: flex; justify-content: center;">
 
   <div style="width: 35%;">
     <mat-list >
@@ -12,8 +12,8 @@
       </ng-container>
     </mat-list>
 
-    <mat-paginator [length]="meta.records"
-                   [pageSize]="meta.limit"
+    <mat-paginator [length]="meta?.records"
+                   [pageSize]="meta?.limit"
                    [pageSizeOptions]="pageSizeOptions"
                    (page)="pageChanged($event)">
     </mat-paginator>

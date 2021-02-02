@@ -1,9 +1,9 @@
-<h2 style="text-align: center">Authors</h2>
+<h2 class="text-center">Authors</h2>
 
-<div style="display: flex; justify-content: center;">
+<div *ngIf="authors && authors.length > 0" class="d-flex content-center">
 
   <div style="width: 35%;">
-    <mat-list >
+    <mat-list>
       <ng-container *ngFor="let author of authors">
         <mat-list-item style="color: black;" >
           <span>{{author.first_name}} {{author.last_name}}</span>
@@ -12,8 +12,8 @@
       </ng-container>
     </mat-list>
 
-    <mat-paginator [length]="meta.records"
-                   [pageSize]="meta.limit"
+    <mat-paginator [length]="meta?.records"
+                   [pageSize]="meta?.limit"
                    [pageSizeOptions]="pageSizeOptions"
                    (page)="pageChanged($event)">
     </mat-paginator>

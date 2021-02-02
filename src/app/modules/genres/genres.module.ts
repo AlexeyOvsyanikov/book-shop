@@ -7,7 +7,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
-  declarations: [GenresComponent],
+  declarations: [
+    GenresComponent
+  ],
   imports: [
     CommonModule,
     MatListModule,

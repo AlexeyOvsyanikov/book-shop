@@ -1,18 +1,12 @@
-import { Genre } from '../../modules/genres/entity/Genre';
-import { Author } from '../../modules/authors/entity/Author';
-import { Book } from '../../modules/books/entity/Book';
+import { IGenre } from '../../modules/genres/interface/genre.interface';
+import { IAuthor } from '../../modules/authors/interface/author.interface';
+import { IBook } from '../../modules/books/interface/book.interface';
+import { IMeta } from './meta.interface';
 
 
-export interface Meta {
-  limit: number;
-  page: number;
-  pages: number;
-  records: number;
-}
-
-export interface ApiResponse {
-  genres?: Genre[];
-  authors?: Author[];
-  books?: Book[];
-  meta: Meta;
+export interface IApiResponse {
+  genres?: IGenre[];
+  authors?: IAuthor[];
+  books?: IBook[];
+  meta: IMeta;
 }

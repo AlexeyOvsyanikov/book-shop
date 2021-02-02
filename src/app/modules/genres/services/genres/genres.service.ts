@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import {Observable} from 'rxjs';
-import {ApiResponse} from '../../../common/entity/ApiResponse';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { IApiResponse } from '../../../../common/interface/api.response.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenresService {
 
-  private readonly _API_GENRES_URL = 'genres';
+  private readonly _apiGenresUrl = 'genres';
 
   public constructor(
-    private http: HttpClient
+    private _http: HttpClient
   ) { }
 
-  public getGenres(page = 1 , limit = 10): Observable<ApiResponse>{
+  public getGenres(page = 1 , limit = 10): Observable<IApiResponse>{
 
     const params = new HttpParams()
       .append('page' , String(page))
       .append('limit' , String(limit));
 
-    return this.http.get(`${environment.API_URL}${this._API_GENRES_URL}` , {
+    return this._http.get<IApiResponse>(`${environment.API_URL}${this._apiGenresUrl}` , {
       params
-    }) as Observable<ApiResponse>;
+    });
   }
 
 }
