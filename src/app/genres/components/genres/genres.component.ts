@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { PageEvent } from '@angular/material/paginator';
 
@@ -12,7 +12,7 @@ import { IMeta } from '@app/core/interface/meta.interface';
 @Component({
   selector: 'app-genres',
   templateUrl: './genres.component.html',
-  styleUrls: ['./genres.component.scss']
+  styleUrls: ['./genres.component.scss'],
 })
 export class GenresComponent implements OnInit {
 
@@ -24,33 +24,30 @@ export class GenresComponent implements OnInit {
   public isGenresLoaded = false;
 
   public constructor(
-    private _genresService: GenresService
+    private readonly _genresService: GenresService,
   ) { }
 
   public ngOnInit(): void {
-
     this._genresService.getGenres()
       .pipe(
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
-      .subscribe( response => {
+      .subscribe((response) => {
         this.genres = response.genres || [];
         this.meta = response.meta;
         this.isGenresLoaded = true;
-      } );
-
+      });
   }
 
   public pageChanged(pageEvent: PageEvent): void {
-
     this._genresService.getGenres(pageEvent.pageIndex + 1, pageEvent.pageSize)
       .pipe(
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
-      .subscribe( response => {
+      .subscribe((response) => {
         this.genres = response.genres || [];
         this.meta = response.meta;
-      } );
-
+      });
   }
+
 }

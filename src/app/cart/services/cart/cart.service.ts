@@ -4,35 +4,33 @@ import { ICart } from '@app/cart/interface/cart.interface';
 import { ICartitem } from '@app/cart/interface/cart.item.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
 
   public cart: ICart = {
     cartItems: [],
-    cartTotal: 0
+    cartTotal: 0,
   };
 
   public constructor(
 
   ) { }
 
-  public addToCart(item: ICartitem){
+  public addToCart(item: ICartitem): void {
     this.cart.cartItems.push(item);
     this.cart.cartTotal += item.price;
   }
 
-  public removeFromCart(id: number){
+  public removeFromCart(id: number): void {
+    const itemIndex = this.cart.cartItems.findIndex((i) => i.id === id);
 
-    const itemIndex = this.cart.cartItems.findIndex( i => i.id === id );
-
-    if(itemIndex !== -1){
-      this.cart.cartItems.splice(itemIndex,1);
+    if (itemIndex !== -1) {
+      this.cart.cartItems.splice(itemIndex, 1);
     }
-
   }
 
-  private countCartTotal(){
+  private _countCartTotal(): void {
 
   }
 

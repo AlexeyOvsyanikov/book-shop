@@ -9,13 +9,13 @@ import { GenresComponent } from './components/genres/genres.component';
 
 @NgModule({
   declarations: [
-    GenresComponent
+    GenresComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     MatListModule,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+  ],
 })
 export class GenresModule { }

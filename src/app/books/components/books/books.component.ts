@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -11,7 +12,7 @@ import { IBook } from '@app/books/interface/book.interface';
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html',
-  styleUrls: ['./books.component.scss']
+  styleUrls: ['./books.component.scss'],
 })
 export class BooksComponent implements OnInit {
 
@@ -23,29 +24,30 @@ export class BooksComponent implements OnInit {
   public bookLoaded = false;
 
   public constructor(
-    private _booksService: BooksService
+    private readonly _booksService: BooksService,
   ) { }
 
   public ngOnInit(): void {
     this._booksService.getBooks()
       .pipe(
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
-      .subscribe( response => {
+      .subscribe((response) => {
         this.books = response.books || [];
         this.meta = response.meta;
         this.bookLoaded = true;
-      } );
+      });
   }
 
   public pageChanged(pageEvent: PageEvent): void {
     this._booksService.getBooks(pageEvent.pageIndex + 1, pageEvent.pageSize)
       .pipe(
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
-      .subscribe( response => {
+      .subscribe((response) => {
         this.books = response.books || [];
         this.meta = response.meta;
       });
   }
+
 }

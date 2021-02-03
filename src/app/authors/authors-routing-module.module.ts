@@ -1,25 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from "@angular/router";
-import { AuthorsComponent } from "./components/authors/authors.component";
-import { AuthorComponent } from "./components/author/author.component";
+import { RouterModule, Routes } from '@angular/router';
+
+import { AuthorsComponent } from './components/authors/authors.component';
+import { AuthorComponent } from './components/author/author.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AuthorsComponent
+    component: AuthorsComponent,
   },
   {
     path: ':id',
-    component: AuthorComponent
-  }
-]
+    component: AuthorComponent,
+  },
+];
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+  ],
 })
 export class AuthorsRoutingModuleModule { }

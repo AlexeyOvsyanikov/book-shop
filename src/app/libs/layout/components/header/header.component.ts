@@ -8,15 +8,15 @@ import { CartService } from '@app/cart/services/cart/cart.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
 
   public cart: ICart;
 
   public constructor(
-    private _cartDialog: MatDialog,
-    private _cartService: CartService
+    private readonly _cartDialog: MatDialog,
+    private readonly _cartService: CartService,
   ) {
     this.cart = this._cartService.cart;
   }
@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   public ngOnInit(): void {
   }
 
-  public openCart(){
+  public openCart(): void {
     this._cartDialog.open(CartComponent);
   }
 

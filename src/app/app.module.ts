@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 
 import { CoreModule } from '@app/core/core.module';
-import { LayoutModule } from '@libs/layout/layout.module';
 import { AppRoutingModule } from '@app/app-routing.module';
-
 import { AppComponent } from '@app/app.component';
+
+import { LayoutModule } from '@libs/layout/layout.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     CoreModule,
@@ -17,7 +17,7 @@ import { AppComponent } from '@app/app.component';
     LayoutModule,
   ],
   bootstrap: [
-    AppComponent
-  ]
+    AppComponent,
+  ],
 })
 export class AppModule { }

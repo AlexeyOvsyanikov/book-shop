@@ -9,13 +9,13 @@ import { AuthorsComponent } from './components/authors/authors.component';
 
 @NgModule({
   declarations: [
-    AuthorsComponent
+    AuthorsComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     MatListModule,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+  ],
 })
 export class AuthorsModule { }

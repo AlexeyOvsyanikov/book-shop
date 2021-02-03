@@ -12,7 +12,7 @@ import { AuthorsService } from '@app/authors/services/authors/authors.service';
 @Component({
   selector: 'app-authors',
   templateUrl: './authors.component.html',
-  styleUrls: ['./authors.component.scss']
+  styleUrls: ['./authors.component.scss'],
 })
 export class AuthorsComponent implements OnInit {
 
@@ -22,33 +22,29 @@ export class AuthorsComponent implements OnInit {
   public pageSizeOptions = [5, 10];
 
   public constructor(
-    private _authorsService: AuthorsService
+    private readonly _authorsService: AuthorsService,
   ) { }
 
   public ngOnInit(): void {
-
     this._authorsService.getAuthors()
       .pipe(
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
-      .subscribe( response => {
+      .subscribe((response) => {
         this.authors = response.authors || [];
         this.meta = response.meta;
-      } );
-
+      });
   }
 
   public pageChanged(pageEvent: PageEvent): void {
-
     this._authorsService.getAuthors(pageEvent.pageIndex + 1, pageEvent.pageSize)
       .pipe(
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
-      .subscribe( response => {
+      .subscribe((response) => {
         this.authors = response.authors || [];
         this.meta = response.meta;
-      } );
-
+      });
   }
 
 }

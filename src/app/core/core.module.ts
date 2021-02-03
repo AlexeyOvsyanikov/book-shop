@@ -6,8 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     HttpClientModule,
   ],
-  exports:[
-    HttpClientModule
+  exports: [
+    HttpClientModule,
   ],
 })
 export class CoreModule { }
