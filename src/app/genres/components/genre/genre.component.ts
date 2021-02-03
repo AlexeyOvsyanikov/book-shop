@@ -2,11 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { switchMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService } from '@app/books/services/books/books.service';
 import { GenresService } from '@app/genres/services/genres/genres.service';
 import { IGenre } from '@app/genres/interface/genre.interface';
 @UntilDestroy()
@@ -22,7 +20,6 @@ export class GenreComponent implements OnInit {
 
   public constructor(
     private readonly _genreService: GenresService,
-    private readonly _bookService: BooksService,
     private readonly _activatedRouted: ActivatedRoute,
   ) { }
 
