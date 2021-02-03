@@ -1,13 +1,15 @@
 <h2 style="text-align: center">Genres</h2>
 
-<div *ngIf="genres && genres.length > 0" style="display: flex; justify-content: center;">
+<div *ngIf="isGenresLoaded" style="display: flex; justify-content: center;">
 
   <div style="width: 35%;">
     <mat-list >
       <ng-container *ngFor="let genre of genres">
-        <mat-list-item style="color: black;" >
-          <span>{{genre.name}}</span>
-          <mat-divider style="border-top-color: black"></mat-divider>
+        <mat-list-item class="list-item-black-color" >
+          <a class="black-link" routerLink="{{ genre.id }}">
+            <span>{{ genre.name }}</span>
+          </a>
+          <mat-divider class="divider-border"></mat-divider>
         </mat-list-item>
       </ng-container>
     </mat-list>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IApiResponse } from '@app/core/interface/api.response.interface';
-
+import { IAuthor } from '@app/authors/interface/author.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,4 +27,9 @@ export class AuthorsService {
         },
       );
   }
+
+  public getAuthor(id: number): Observable<IAuthor>{
+    return this._http.get<IAuthor>(`/api/${this._apiAuthorsUrl}/${id}`);
+  }
+
 }

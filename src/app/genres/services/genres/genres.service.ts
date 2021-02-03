@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { IApiResponse } from '@app/core/interface/api.response.interface';
+import { IGenre } from '@app/genres/interface/genre.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,10 @@ export class GenresService {
     return this._http.get<IApiResponse>(`/api/${this._apiGenresUrl}` , {
       params
     });
+  }
+
+  public getGenre(id: number): Observable<IGenre>{
+    return this._http.get<IGenre>(`/api/${this._apiGenresUrl}/${id}`);
   }
 
 }

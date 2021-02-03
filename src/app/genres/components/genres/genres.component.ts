@@ -21,6 +21,8 @@ export class GenresComponent implements OnInit {
 
   public pageSizeOptions = [5, 10];
 
+  public isGenresLoaded = false;
+
   public constructor(
     private _genresService: GenresService
   ) { }
@@ -34,6 +36,7 @@ export class GenresComponent implements OnInit {
       .subscribe( response => {
         this.genres = response.genres || [];
         this.meta = response.meta;
+        this.isGenresLoaded = true;
       } );
 
   }

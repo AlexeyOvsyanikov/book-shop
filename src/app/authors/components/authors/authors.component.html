@@ -5,9 +5,11 @@
   <div style="width: 35%;">
     <mat-list>
       <ng-container *ngFor="let author of authors">
-        <mat-list-item style="color: black;" >
-          <span>{{author.first_name}} {{author.last_name}}</span>
-          <mat-divider style="border-top-color: black"></mat-divider>
+        <mat-list-item  class="list-item-black-color" >
+          <a class="black-link" routerLink="{{author.id}}" >
+            <span>{{author.first_name}} {{author.last_name}}</span>
+          </a>
+          <mat-divider class="divider-border"></mat-divider>
         </mat-list-item>
       </ng-container>
     </mat-list>

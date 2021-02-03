@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { PageEvent } from '@angular/material/paginator';
 
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { IMeta } from '@app/core/interface/meta.interface';
 import { IAuthor } from '@app/authors/interface/author.interface';
 import { AuthorsService } from '@app/authors/services/authors/authors.service';
-
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
