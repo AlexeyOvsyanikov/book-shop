@@ -30,7 +30,10 @@ export class BookComponent implements OnInit {
       .pipe(
         switchMap((params) => this._bookService.getBook(params.id)),
         untilDestroyed(this),
-      ).subscribe((book) => this.book = book);
+      ).subscribe((book) => {
+        this.book = book;
+        this._cartService.markItem(this.book);
+      });
   }
 
   public toogleToCart(book: IBook): void {
@@ -39,6 +42,8 @@ export class BookComponent implements OnInit {
     if (book.isInCart) {
       this._cartService.addToCart({
         id: book.id,
+        image: book.image,
+        title: book.title,
         amount: 1,
         price: book.price,
       });

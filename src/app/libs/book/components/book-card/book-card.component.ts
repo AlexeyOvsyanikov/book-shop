@@ -18,7 +18,7 @@ export class BookCardComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.book) {
-      this._cartService.markItems([this.book]);
+      this._cartService.markItem(this.book);
     }
   }
 
@@ -28,6 +28,8 @@ export class BookCardComponent implements OnInit {
     if (book.isInCart) {
       this._cartService.addToCart({
         id: book.id,
+        image: book.image,
+        title: book.title,
         amount: 1,
         price: book.price,
       });

@@ -48,6 +48,12 @@
   margin-left: 35px;
 }
 
+.short-text{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .w100 {
   width: 100%;
 }
@@ -59,3 +65,8 @@
 .mrt15 {
   margin-top: 15px
 }
+
+.mrb15 {
+  margin-bottom: 15px
+}
+
