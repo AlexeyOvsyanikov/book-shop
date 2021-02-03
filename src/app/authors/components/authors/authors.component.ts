@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { PageEvent } from '@angular/material/paginator';
 
-import { IMeta } from '@app/common/interface/meta.interface';
-import { IAuthor } from '@app/modules/authors/interface/author.interface';
-import { AuthorsService } from '@app/modules/authors/services/authors/authors.service';
+import { IMeta } from '@app/core/interface/meta.interface';
+import { IAuthor } from '@app/authors/interface/author.interface';
+import { AuthorsService } from '@app/authors/services/authors/authors.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -16,18 +16,18 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class AuthorsComponent implements OnInit {
 
-  authors!: IAuthor[];
-  meta!: IMeta;
+  public authors!: IAuthor[];
+  public meta!: IMeta;
 
-  pageSizeOptions: number[] = [5, 10];
+  public pageSizeOptions = [5, 10];
 
-  constructor(
-    private authorsService: AuthorsService
+  public constructor(
+    private _authorsService: AuthorsService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
 
-    this.authorsService.getAuthors()
+    this._authorsService.getAuthors()
       .pipe(
         untilDestroyed(this)
       )
@@ -38,9 +38,9 @@ export class AuthorsComponent implements OnInit {
 
   }
 
-  pageChanged(pageEvent: PageEvent): void {
+  public pageChanged(pageEvent: PageEvent): void {
 
-    this.authorsService.getAuthors(pageEvent.pageIndex + 1, pageEvent.pageSize)
+    this._authorsService.getAuthors(pageEvent.pageIndex + 1, pageEvent.pageSize)
       .pipe(
         untilDestroyed(this)
       )

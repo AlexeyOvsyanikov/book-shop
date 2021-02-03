@@ -6,7 +6,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./src",
     "paths": {
-      "@app/*": ["app/*"]
+      "@app/*": ["app/*"],
+      "@libs/*": ["app/libs/*"],
     },
     "strict": true,
     "noImplicitReturns": true,
@@ -27,6 +28,6 @@
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
   }
 }

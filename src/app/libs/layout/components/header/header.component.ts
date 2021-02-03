@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { CartComponent } from '@app/modules/cart/components/cart/cart.component';
-import { ICart } from '@app/modules/cart/interface/cart.interface';
-import { CartService } from '@app/modules/cart/services/cart/cart.service';
+import { CartComponent } from '@app/cart/components/cart/cart.component';
+import { ICart } from '@app/cart/interface/cart.interface';
+import { CartService } from '@app/cart/services/cart/cart.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

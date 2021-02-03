@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { IBook } from '@app/modules/books/interface/book.interface';
-import { CartService } from '@app/modules/cart/services/cart/cart.service';
+import { IBook } from '@app/books/interface/book.interface';
+import { CartService } from '@app/cart/services/cart/cart.service';
 @Component({
   selector: 'app-book-cart',
   templateUrl: './book-cart.component.html',

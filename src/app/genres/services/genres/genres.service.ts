@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../../../environments/environment';
+
 import { Observable } from 'rxjs';
-import { IApiResponse } from '../../../../common/interface/api.response.interface';
+import { IApiResponse } from '@app/core/interface/api.response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class GenresService {
       .append('page' , String(page))
       .append('limit' , String(limit));
 
-    return this._http.get<IApiResponse>(`${environment.API_URL}${this._apiGenresUrl}` , {
+    return this._http.get<IApiResponse>(`/api/${this._apiGenresUrl}` , {
       params
     });
   }

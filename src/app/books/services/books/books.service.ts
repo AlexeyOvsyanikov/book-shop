@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IApiResponse } from '../../../../common/interface/api.response.interface';
-import { IBook } from '../../interface/book.interface';
-import { environment } from '../../../../../environments/environment';
+import { IApiResponse } from '@app/core/interface/api.response.interface';
+import { IBook } from '@app/books/interface/book.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class BooksService {
       .append('limit' , String(limit));
 
     return this._http.get<IApiResponse>(
-      `${environment.API_URL}${this._apiBooksUrl}`,
+      `/api/${this._apiBooksUrl}`,
       {
         params
       }
@@ -31,7 +30,7 @@ export class BooksService {
   }
 
   public getBook(id: number): Observable<IBook>{
-    return this._http.get<IBook>(`${environment.API_URL}${this._apiBooksUrl}/${id}`);
+    return this._http.get<IBook>(`/api/${this._apiBooksUrl}/${id}`);
   }
 
 }

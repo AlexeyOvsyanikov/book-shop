@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IApiResponse } from '../../../../common/interface/api.response.interface';
-import { environment } from '../../../../../environments/environment';
+import { IApiResponse } from '@app/core/interface/api.response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class AuthorsService {
 
     return this._http
       .get<IApiResponse>(
-        `${environment.API_URL}${this._apiAuthorsUrl}`,
+        `/api/${this._apiAuthorsUrl}`,
         {
           params
         },

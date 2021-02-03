@@ -4,19 +4,19 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'genres',
-    loadChildren: () => import('./modules/genres/genres-routing-module.module').then(m => m.GenresRoutingModuleModule)
+    loadChildren: () => import('@app/genres/genres-routing-module.module').then(m => m.GenresRoutingModuleModule)
   },
   {
     path: 'authors',
-    loadChildren: () => import('./modules/authors/authors-routing-module.module').then(m => m.AuthorsRoutingModuleModule)
+    loadChildren: () => import('@app/authors/authors-routing-module.module').then(m => m.AuthorsRoutingModuleModule)
   },
   {
     path: 'books',
-    loadChildren: () => import('./modules/books/book-routing-module.module').then(m => m.BookRoutingModuleModule)
+    loadChildren: () => import('@app/books/book-routing-module.module').then(m => m.BookRoutingModuleModule)
   },
   {
     path: 'cart',
-    loadChildren: () => import('./modules/cart/cart-routing.module').then(m => m.CartRoutingModule)
+    loadChildren: () => import('@app/cart/cart-routing.module').then(m => m.CartRoutingModule)
   }
 ];
 

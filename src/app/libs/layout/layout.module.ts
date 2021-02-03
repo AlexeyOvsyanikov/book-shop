@@ -1,13 +1,13 @@
-import { AppRoutingModule } from '../../../app-routing.module';
+import { AppRoutingModule } from '@app/app-routing.module';
 
-import { GenresRoutingModuleModule } from './../../../modules/genres/genres-routing-module.module';
-import { AuthorsRoutingModuleModule } from './../../../modules/authors/authors-routing-module.module';
-import { BookRoutingModuleModule } from './../../../modules/books/book-routing-module.module';
+import { GenresRoutingModuleModule } from '@app/genres/genres-routing-module.module';
+import { AuthorsRoutingModuleModule } from '@app/authors/authors-routing-module.module';
+import { BookRoutingModuleModule } from '@app/books/book-routing-module.module';
 
-import { AuthorsModule } from './../../../modules/authors/authors.module';
-import { GenresModule } from './../../../modules/genres/genres.module';
-import { BookModule } from './../../../modules/books/book.module';
-import { CartModule } from './../../../modules/cart/cart.module';
+import { AuthorsModule } from '@app/authors/authors.module';
+import { GenresModule } from '@app/genres/genres.module';
+import { BookModule } from '@app/books/book.module';
+import { CartModule } from '@app/cart/cart.module';
 
 import { RouterModule } from '@angular/router';
 

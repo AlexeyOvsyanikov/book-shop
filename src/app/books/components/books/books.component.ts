@@ -3,9 +3,10 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService } from '@app/modules/books/services/books/books.service';
-import { IMeta } from '@app/common/interface/meta.interface';
-import { IBook } from '@app/modules/books/interface/book.interface';
+import { BooksService } from '@app/books/services/books/books.service';
+import { IMeta } from '@app/core/interface/meta.interface';
+import { IBook } from '@app/books/interface/book.interface';
+
 @UntilDestroy()
 @Component({
   selector: 'app-books',
@@ -17,16 +18,16 @@ export class BooksComponent implements OnInit {
   public books!: IBook[];
   public meta!: IMeta;
 
-  public pageSizeOptions: number[] = [5, 10];
+  public pageSizeOptions = [5, 10];
 
   public bookLoaded = false;
 
   public constructor(
-    private booksService: BooksService
+    private _booksService: BooksService
   ) { }
 
   public ngOnInit(): void {
-    this.booksService.getBooks()
+    this._booksService.getBooks()
       .pipe(
         untilDestroyed(this)
       )
@@ -38,7 +39,7 @@ export class BooksComponent implements OnInit {
   }
 
   public pageChanged(pageEvent: PageEvent): void {
-    this.booksService.getBooks(pageEvent.pageIndex + 1, pageEvent.pageSize)
+    this._booksService.getBooks(pageEvent.pageIndex + 1, pageEvent.pageSize)
       .pipe(
         untilDestroyed(this)
       )

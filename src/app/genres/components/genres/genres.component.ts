@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 
-import { GenresService } from '@app/modules/genres/services/genres/genres.service';
-import { IGenre } from '@app/modules/genres/interface/genre.interface';
-import { IMeta } from '@app/common/interface/meta.interface';
-
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { GenresService } from '@app/genres/services/genres/genres.service';
+import { IGenre } from '@app/genres/interface/genre.interface';
+import { IMeta } from '@app/core/interface/meta.interface';
 
 @UntilDestroy()
 @Component({
@@ -16,18 +16,18 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class GenresComponent implements OnInit {
 
-  genres!: IGenre[];
-  meta!: IMeta;
+  public genres!: IGenre[];
+  public meta!: IMeta;
 
-  pageSizeOptions: number[] = [5, 10];
+  public pageSizeOptions = [5, 10];
 
-  constructor(
-    private genresService: GenresService
+  public constructor(
+    private _genresService: GenresService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
 
-    this.genresService.getGenres()
+    this._genresService.getGenres()
       .pipe(
         untilDestroyed(this)
       )
@@ -38,9 +38,9 @@ export class GenresComponent implements OnInit {
 
   }
 
-  pageChanged(pageEvent: PageEvent): void {
+  public pageChanged(pageEvent: PageEvent): void {
 
-    this.genresService.getGenres(pageEvent.pageIndex + 1, pageEvent.pageSize)
+    this._genresService.getGenres(pageEvent.pageIndex + 1, pageEvent.pageSize)
       .pipe(
         untilDestroyed(this)
       )
