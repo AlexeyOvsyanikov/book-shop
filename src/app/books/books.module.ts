@@ -8,13 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { BooksComponent } from './components/books/books.component';
 import { BookComponent } from './components/book/book.component';
-import { BookCartComponent } from './components/books/book-cart/book-cart.component';
+
+import { BookModule } from '@libs/book/book.module';
+
 
 @NgModule({
   declarations: [
     BooksComponent,
     BookComponent,
-    BookCartComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { BookCartComponent } from './components/books/book-cart/book-cart.compon
     MatPaginatorModule,
     MatButtonModule,
     RouterModule,
+    BookModule,
   ],
 })
-export class BookModule { }
+export class BooksModule { }

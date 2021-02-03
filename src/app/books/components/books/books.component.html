@@ -4,9 +4,7 @@
 
   <div class="d-flex book-list-wrapper">
 
-    <div class="book-cart" *ngFor="let book of books">
-      <app-book-cart [book]="book"></app-book-cart>
-    </div>
+    <app-book-card *ngFor="let book of books" [book]="book"></app-book-card>
 
   </div>
 

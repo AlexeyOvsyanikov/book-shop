@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'books',
-    loadChildren: () => import('@app/books/book-routing-module.module').then((m) => m.BookRoutingModuleModule),
+    loadChildren: () => import('@app/books/books-routing-module.module').then((m) => m.BooksRoutingModuleModule),
   },
   {
     path: 'cart',

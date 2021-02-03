@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AuthorsService } from '@app/authors/services/authors/authors.service';
+import { BooksService } from '@app/books/services/books/books.service';
 import { IAuthor } from '@app/authors/interface/author.interface';
 
 @UntilDestroy()
@@ -21,6 +22,7 @@ export class AuthorComponent implements OnInit {
 
   public constructor(
     private readonly _authorService: AuthorsService,
+    private readonly _bookService: BooksService,
     private readonly _activatedRoute: ActivatedRoute,
   ) { }
 
@@ -28,7 +30,9 @@ export class AuthorComponent implements OnInit {
     this._activatedRoute.params.pipe(
       switchMap((params) => this._authorService.getAuthor(params.id)),
       untilDestroyed(this),
-    ).subscribe((author) => this.author = author);
+    ).subscribe((author) => {
+      this.author = author;
+    });
   }
 
 }

@@ -13,10 +13,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { GenresRoutingModuleModule } from '@app/genres/genres-routing-module.module';
 import { AuthorsRoutingModuleModule } from '@app/authors/authors-routing-module.module';
-import { BookRoutingModuleModule } from '@app/books/book-routing-module.module';
+import { BooksRoutingModuleModule } from '@app/books/books-routing-module.module';
 import { AuthorsModule } from '@app/authors/authors.module';
 import { GenresModule } from '@app/genres/genres.module';
-import { BookModule } from '@app/books/book.module';
+import { BooksModule } from '@app/books/books.module';
 import { CartModule } from '@app/cart/cart.module';
 
 import { HeaderComponent } from './components/header/header.component';
@@ -37,9 +37,9 @@ import { BookShopComponent } from './components/book-shop/book-shop.component';
     AppRoutingModule,
     GenresRoutingModuleModule,
     AuthorsRoutingModuleModule,
-    BookRoutingModuleModule,
+    BooksRoutingModuleModule,
 
-    BookModule,
+    BooksModule,
     GenresModule,
     AuthorsModule,
     CartModule,
