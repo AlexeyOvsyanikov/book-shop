@@ -1,0 +1,18 @@
+<mat-toolbar>
+
+  <div class="d-flex content-center space-between" style="width: 100%;">
+
+    <div>
+      <a routerLink="books" class="logo">Book-shop</a>
+      <a mat-button routerLink="authors">Authors</a>
+      <a mat-button routerLink="genres">Genres</a>
+      <a mat-button routerLink="books">Books</a>
+    </div>
+
+    <div (click)="openCart()" class="cart" style="margin-top: 10px;">
+      <mat-icon matBadge="{{cart.cartItems.length}}" matBadgeColor="warn">shopping_cart</mat-icon>
+    </div>
+
+  </div>
+
+</mat-toolbar>

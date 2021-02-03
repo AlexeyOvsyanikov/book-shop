@@ -1,0 +1,22 @@
+<h2 class="text-center">Books</h2>
+
+<div *ngIf="bookLoaded" class="d-flex content-center">
+
+  <div class="d-flex book-list-wrapper">
+
+    <div class="book-cart" *ngFor="let book of books">
+      <app-book-cart [book]="book"></app-book-cart>
+    </div>
+
+  </div>
+
+</div>
+
+<div *ngIf="bookLoaded">
+  <mat-paginator [length]="meta?.records"
+                 [pageSize]="meta?.limit"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="pageChanged($event)">
+  </mat-paginator>
+</div>
+

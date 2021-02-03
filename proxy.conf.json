@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://alexo.kubesh.ru",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
