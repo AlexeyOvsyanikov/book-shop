@@ -17,6 +17,9 @@ export class BookCardComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    if (this.book) {
+      this._cartService.markItems([this.book]);
+    }
   }
 
   public toogleToCart(book: IBook): void {

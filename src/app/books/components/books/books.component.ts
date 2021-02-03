@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IMeta } from '@shared/interfaces/meta.interface';
 
 import { BooksService } from '@app/books/services/books/books.service';
-import { IMeta } from '@app/core/interface/meta.interface';
 import { IBook } from '@app/books/interface/book.interface';
 
 @UntilDestroy()

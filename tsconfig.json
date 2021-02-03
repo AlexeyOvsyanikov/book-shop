@@ -8,6 +8,7 @@
     "paths": {
       "@app/*": ["app/*"],
       "@libs/*": ["app/libs/*"],
+      "@shared/*": ["app/shared/*"],
     },
     "strict": true,
     "noImplicitReturns": true,

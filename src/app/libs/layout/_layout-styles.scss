@@ -33,17 +33,29 @@
   border-top-color: black;
 }
 
-.list-item-black-color{
+.list-item-black-color {
   color: black;
 }
 
-.black-link{
+.black-link {
   text-decoration: none;
   color: black;
 }
 
-.book-list-wrapper{
+.book-list-wrapper {
   width: 70%;
   flex-wrap: wrap;
   margin-left: 35px;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.w50{
+  width: 50%;
+}
+
+.mrt15 {
+  margin-top: 15px
 }

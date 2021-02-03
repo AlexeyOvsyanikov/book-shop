@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/core/interface/api.response.interface';
+import { IApiResponse } from '@shared/interfaces/api.response.interface';
+
 import { IGenre } from '@app/genres/interface/genre.interface';
 
 @Injectable({

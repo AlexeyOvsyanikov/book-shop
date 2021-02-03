@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { IBook } from '@app/books/interface/book.interface';
 import { ICart } from '@app/cart/interface/cart.interface';
 import { ICartitem } from '@app/cart/interface/cart.item.interface';
 
@@ -28,6 +29,15 @@ export class CartService {
     if (itemIndex !== -1) {
       this.cart.cartItems.splice(itemIndex, 1);
     }
+  }
+
+  public markItems(books: IBook[]): void {
+    books.forEach((book: IBook) => {
+      const checkItem = this.cart.cartItems.find((b) => b.id === book.id);
+      if (checkItem) {
+        book.isInCart = true;
+      }
+    });
   }
 
   private _countCartTotal(): void {
