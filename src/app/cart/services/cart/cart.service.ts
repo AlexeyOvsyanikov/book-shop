@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { StorageMap } from '@ngx-pwa/local-storage';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
 import { IBook } from '@app/books/interface/book.interface';
 import { ICart } from '@app/cart/interface/cart.interface';
 import { ICartitem } from '@app/cart/interface/cart.item.interface';
-@UntilDestroy()
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,57 +14,77 @@ export class CartService {
     cartTotal: 0,
   };
 
-  public constructor(
-      private readonly _storage: StorageMap,
-  ) {
-    this._storage.get('cart')
-      .subscribe((cart) => {
-        if (cart) {
-          const deserializedCart = cart as ICart;
-          this.cart.cartItems = deserializedCart.cartItems;
-          this.cart.cartTotal = deserializedCart.cartTotal;
-        } else {
-          this._storage.set('cart', this.cart)
-            .pipe(
-              untilDestroyed(this),
-            ).subscribe();
-        }
-      });
+  private _books: IBook[] = [];
+
+  public constructor() {
+    const cart = localStorage.getItem('cart');
+
+    if (cart) {
+      const deserializedCart = JSON.parse(cart);
+      this.cart.cartItems = deserializedCart.cartItems;
+      this.cart.cartTotal = deserializedCart.cartTotal;
+    } else {
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    }
   }
 
-  public addToCart(item: ICartitem): void {
+  public addToCart(item: ICartitem , book: IBook): void {
     const checkItem = this.cart.cartItems.find((b) => b.id === item.id);
+
     if (!checkItem) {
       this.cart.cartItems.push(item);
+
+      const checkBook = this._books.find((b) => b.id === item.id);
+
+      if (!checkBook) {
+        this._books.push(book);
+      }
+
       this.cart.cartTotal += item.price;
-      this._storage.set('cart', this.cart)
-        .pipe(
-          untilDestroyed(this),
-        ).subscribe();
+      this._reloadCartTotal();
+
+      localStorage.setItem('cart', JSON.stringify(this.cart));
     }
   }
 
   public updateItemAmount(up: boolean , item: ICartitem): void {
-    if (up) {
-      this.cart.cartTotal += item.price;
-    } else {
-      this.cart.cartTotal -= item.price;
+    item.amount = up ? item.amount + 1 : item.amount - 1;
+
+    const realItem = this.cart.cartItems.find((i) => i.id === item.id);
+
+    if (realItem) {
+      realItem.amount = item.amount;
     }
-    this._storage.set('cart', this.cart)
-      .pipe(
-        untilDestroyed(this),
-      ).subscribe();
+
+    this._reloadCartTotal();
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+  }
+
+  public changeAmount(amount: number, id: number): void {
+    const item = this.cart.cartItems.find((i) => i.id === id);
+
+    if (item) {
+      item.amount = amount;
+    }
+
+    this._reloadCartTotal();
+    localStorage.setItem('cart', JSON.stringify(this.cart));
   }
 
   public removeFromCart(id: number): void {
     const itemIndex = this.cart.cartItems.findIndex((i) => i.id === id);
+    const item = this.cart.cartItems.find((i) => i.id === id);
+    const checkBook = this._books.find((b) => b.id === id);
 
-    if (itemIndex !== -1) {
+    if (itemIndex !== -1 && item) {
       this.cart.cartItems.splice(itemIndex, 1);
-      this._storage.set('cart', this.cart)
-        .pipe(
-          untilDestroyed(this),
-        ).subscribe();
+
+      this._reloadCartTotal();
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    }
+
+    if (checkBook) {
+      checkBook.isInCart = false;
     }
   }
 
@@ -78,8 +95,14 @@ export class CartService {
     }
   }
 
-  private _countCartTotal(): void {
+  public initBooks(books: IBook[]): void {
+    this._books = books;
+  }
 
+  private _reloadCartTotal(): void {
+    this.cart.cartTotal = this.cart.cartItems.map((i) => {
+      return i.amount * i.price;
+    }).reduce((acc , current) => acc + current , 0);
   }
 
 }

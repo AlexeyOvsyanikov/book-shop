@@ -18,10 +18,6 @@ const routes: Routes = [
     path: 'books',
     loadChildren: () => import('@app/books/books-routing-module.module').then((m) => m.BooksRoutingModuleModule),
   },
-  {
-    path: 'cart',
-    loadChildren: () => import('@app/cart/cart-routing.module').then((m) => m.CartRoutingModule),
-  },
 ];
 
 @NgModule({

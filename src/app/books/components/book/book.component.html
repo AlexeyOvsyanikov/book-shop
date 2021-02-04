@@ -8,7 +8,7 @@
       <div>
         <div>Writing date: {{book.writing_date | date:'dd/MM/yyyy hh:mm'}}</div>
         <div>Release date: {{book.release_date | date:'dd/MM/yyyy hh:mm'}}</div>
-        <span>Price: {{book.price | number:'2.2'}}</span>
+        <span>Price: {{book.price | currency}}</span>
         <div class="mrt15">
           <button class="w100" (click)="toogleToCart(book)" mat-raised-button color="{{!book.isInCart ? 'primary' : 'warn'}}">
             {{!book.isInCart ? 'Add to cart' : 'Remove from cart'}}

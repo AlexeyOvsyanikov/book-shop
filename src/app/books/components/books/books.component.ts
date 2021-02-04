@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@app/core/interfaces/meta.interface';
 
 import { BooksService } from '@app/books/services/books/books.service';
+import { CartService } from '@app/cart/services/cart/cart.service';
+import { IMeta } from '@app/core/interfaces/meta.interface';
 import { IBook } from '@app/books/interface/book.interface';
+
 
 @UntilDestroy()
 @Component({
@@ -25,6 +27,7 @@ export class BooksComponent implements OnInit {
 
   public constructor(
     private readonly _booksService: BooksService,
+    private readonly _cartService: CartService,
   ) { }
 
   public ngOnInit(): void {
@@ -34,6 +37,7 @@ export class BooksComponent implements OnInit {
       )
       .subscribe((response) => {
         this.books = response.books || [];
+        this._cartService.initBooks(this.books);
         this.meta = response.meta;
         this.bookLoaded = true;
       });
@@ -46,6 +50,7 @@ export class BooksComponent implements OnInit {
       )
       .subscribe((response) => {
         this.books = response.books || [];
+        this._cartService.initBooks(this.books);
         this.meta = response.meta;
       });
   }

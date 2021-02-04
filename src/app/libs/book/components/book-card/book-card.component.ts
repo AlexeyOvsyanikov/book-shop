@@ -28,11 +28,9 @@ export class BookCardComponent implements OnInit {
     if (book.isInCart) {
       this._cartService.addToCart({
         id: book.id,
-        image: book.image,
-        title: book.title,
         amount: 1,
         price: book.price,
-      });
+      } , book);
     } else {
       this._cartService.removeFromCart(book.id);
     }

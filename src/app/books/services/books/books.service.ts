@@ -34,4 +34,16 @@ export class BooksService {
     return this._http.get<IBook>(`/api/${this._apiBooksUrl}/${id}`);
   }
 
+  public getBooksByIds(ids: number[]): Observable<IApiResponse> {
+    let params = new HttpParams();
+    ids.forEach((id) => params = params.append('q[id_in][]', String(id))) ;
+
+    return this._http.get<IApiResponse>(
+      `/api/${this._apiBooksUrl}`,
+      {
+        params,
+      },
+    );
+  }
+
 }

@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@app/core/interfaces/meta.interface';
 
+import { IMeta } from '@app/core/interfaces/meta.interface';
 import { IAuthor } from '@app/authors/interface/author.interface';
 import { AuthorsService } from '@app/authors/services/authors/authors.service';
 
@@ -21,6 +21,8 @@ export class AuthorsComponent implements OnInit {
 
   public pageSizeOptions = [5, 10];
 
+  public isAuthorLoaded = false;
+
   public constructor(
     private readonly _authorsService: AuthorsService,
   ) { }
@@ -33,6 +35,7 @@ export class AuthorsComponent implements OnInit {
       .subscribe((response) => {
         this.authors = response.authors || [];
         this.meta = response.meta;
+        this.isAuthorLoaded = true;
       });
   }
 

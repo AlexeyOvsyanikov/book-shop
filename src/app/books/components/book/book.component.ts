@@ -33,6 +33,7 @@ export class BookComponent implements OnInit {
       ).subscribe((book) => {
         this.book = book;
         this._cartService.markItem(this.book);
+        this._cartService.initBooks([this.book]);
       });
   }
 
@@ -42,11 +43,9 @@ export class BookComponent implements OnInit {
     if (book.isInCart) {
       this._cartService.addToCart({
         id: book.id,
-        image: book.image,
-        title: book.title,
         amount: 1,
         price: book.price,
-      });
+      }, book);
     } else {
       this._cartService.removeFromCart(book.id);
     }

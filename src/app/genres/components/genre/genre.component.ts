@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { GenresService } from '@app/genres/services/genres/genres.service';
+import { CartService } from '@app/cart/services/cart/cart.service';
 import { IGenre } from '@app/genres/interface/genre.interface';
 @UntilDestroy()
 @Component({
@@ -20,6 +21,7 @@ export class GenreComponent implements OnInit {
 
   public constructor(
     private readonly _genreService: GenresService,
+    private readonly _cartService: CartService,
     private readonly _activatedRouted: ActivatedRoute,
   ) { }
 
@@ -29,6 +31,10 @@ export class GenreComponent implements OnInit {
       untilDestroyed(this),
     ).subscribe((genre) => {
       this.genre = genre;
+
+      if (this.genre && this.genre.books) {
+        this._cartService.initBooks(this.genre.books);
+      }
     });
   }
 
