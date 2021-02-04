@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@shared/interfaces/meta.interface';
 
+import { IMeta } from '@app/core/interfaces/meta.interface';
 import { GenresService } from '@app/genres/services/genres/genres.service';
 import { IGenre } from '@app/genres/interface/genre.interface';
 

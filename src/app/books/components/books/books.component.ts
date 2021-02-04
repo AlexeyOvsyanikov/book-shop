@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@shared/interfaces/meta.interface';
+import { IMeta } from '@app/core/interfaces/meta.interface';
 
 import { BooksService } from '@app/books/services/books/books.service';
 import { IBook } from '@app/books/interface/book.interface';

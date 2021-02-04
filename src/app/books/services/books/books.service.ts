@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/shared/interfaces/api.response.interface';
+import { IApiResponse } from '@app/core/interfaces/api.response.interface';
 import { IBook } from '@app/books/interface/book.interface';
 
 @Injectable({
