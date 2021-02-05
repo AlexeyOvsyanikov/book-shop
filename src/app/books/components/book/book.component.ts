@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { switchMap } from 'rxjs/operators';
-
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService } from '@app/books/services/books/books.service';
-import { CartService } from '@app/cart/services/cart/cart.service';
-import { IBook } from '@app/books/interface/book.interface';
+import { BooksService , IBook } from '@app/books';
+import { CartService } from '@app/cart';
 
 @UntilDestroy()
 @Component({
@@ -19,25 +16,23 @@ export class BookComponent implements OnInit {
 
   public book!: IBook;
 
-  public constructor(
+  constructor(
     private readonly _bookService: BooksService,
     private readonly _cartService: CartService,
     private readonly _activatedRoute: ActivatedRoute,
   ) { }
 
   public ngOnInit(): void {
-    this._activatedRoute.params
-      .pipe(
-        switchMap((params) => this._bookService.getBook(params.id)),
-        untilDestroyed(this),
-      ).subscribe((book) => {
+    this._bookService.getBook(this._activatedRoute.snapshot.params.id)
+      .pipe(untilDestroyed(this))
+      .subscribe((book) => {
         this.book = book;
-        this._cartService.markItem(this.book);
+        this.book.isInCart = this._cartService.isInCart(this.book);
         this._cartService.initBooks([this.book]);
       });
   }
 
-  public toogleToCart(book: IBook): void {
+  public toggleToCart(book: IBook): void {
     book.isInCart = !book.isInCart;
 
     if (book.isInCart) {

@@ -1,13 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { switchMap } from 'rxjs/operators';
-
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { GenresService } from '@app/genres/services/genres/genres.service';
-import { CartService } from '@app/cart/services/cart/cart.service';
-import { IGenre } from '@app/genres/interface/genre.interface';
+import { GenresService , IGenre } from '@app/genres';
+import { CartService } from '@app/cart';
 @UntilDestroy()
 @Component({
   selector: 'app-genre',
@@ -19,23 +16,22 @@ export class GenreComponent implements OnInit {
   @Input()
   public genre!: IGenre;
 
-  public constructor(
+  constructor(
     private readonly _genreService: GenresService,
     private readonly _cartService: CartService,
     private readonly _activatedRouted: ActivatedRoute,
   ) { }
 
   public ngOnInit(): void {
-    this._activatedRouted.params.pipe(
-      switchMap((params) => this._genreService.getGenre(params.id)),
-      untilDestroyed(this),
-    ).subscribe((genre) => {
-      this.genre = genre;
+    this._genreService.getGenre(this._activatedRouted.snapshot.params.id)
+      .pipe(untilDestroyed(this))
+      .subscribe((genre) => {
+        this.genre = genre;
 
-      if (this.genre && this.genre.books) {
-        this._cartService.initBooks(this.genre.books);
-      }
-    });
+        if (this.genre && this.genre.books) {
+          this._cartService.initBooks(this.genre.books);
+        }
+      });
   }
 
 }

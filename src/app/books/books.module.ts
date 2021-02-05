@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BooksComponent } from './components/books/books.component';
 import { BookComponent } from './components/book/book.component';
 
-import { BookModule } from '@libs/book/book.module';
+import { BookModule } from '@libs/book';
 
 
 @NgModule({

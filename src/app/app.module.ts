@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { CoreModule } from '@app/core/core.module';
+import { CoreModule } from '@app/core';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 
-import { LayoutModule } from '@libs/layout/layout.module';
+import { LayoutModule } from '@libs/layout';
 
 
 @NgModule({

@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/core/interfaces/api.response.interface';
-import { IBook } from '@app/books/interface/book.interface';
+import { IApiResponse } from '@app/core';
+import { IBook } from '@app/books';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class BooksService {
 
   private readonly _apiBooksUrl = 'books';
 
-  public constructor(
+  constructor(
     private readonly _http: HttpClient,
   ) { }
 

@@ -8,7 +8,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthorsComponent } from './components/authors/authors.component';
 import { AuthorComponent } from './components/author/author.component';
 
-import { BookModule } from '@libs/book/book.module';
+import { BookModule } from '@libs/book';
 
 @NgModule({
   declarations: [

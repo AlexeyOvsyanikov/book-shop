@@ -1,6 +1,6 @@
 <h2 class="text-center">Books</h2>
 
-<div *ngIf="bookLoaded" class="d-flex content-center">
+<div *ngIf="isBooksLoaded" class="d-flex content-center">
 
   <div class="d-flex book-list-wrapper">
 
@@ -10,7 +10,7 @@
 
 </div>
 
-<div *ngIf="bookLoaded">
+<div *ngIf="isBooksLoaded">
   <mat-paginator [length]="meta?.records"
                  [pageSize]="meta?.limit"
                  [pageSizeOptions]="pageSizeOptions"

@@ -4,10 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService } from '@app/books/services/books/books.service';
-import { CartService } from '@app/cart/services/cart/cart.service';
-import { ICartitem } from '@app/cart/interface/cart.item.interface';
-import { ICart } from '@app/cart/interface/cart.interface';
+import { BooksService } from '@app/books';
+import { CartService , ICart , ICartitem } from '@app/cart';
 
 @UntilDestroy()
 @Component({
@@ -25,7 +23,7 @@ export class CartComponent implements OnInit {
   public displayedColumns = ['image', 'title', 'price', 'itemTotal', 'amount' , 'remove'];
   public displayedFooterColumns = ['first', 'second', 'trird', 'fourth', 'fifth' , 'sixth'];
 
-  public constructor(
+  constructor(
     private readonly _cartService: CartService,
     private readonly _booksService: BooksService,
   ) {

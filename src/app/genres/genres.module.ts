@@ -8,7 +8,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { GenresComponent } from './components/genres/genres.component';
 import { GenreComponent } from './components/genre/genre.component';
 
-import { BookModule } from '@libs/book/book.module';
+import { BookModule } from '@libs/book';
 
 @NgModule({
   declarations: [

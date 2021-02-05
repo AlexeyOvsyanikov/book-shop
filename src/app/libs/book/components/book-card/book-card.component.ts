@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { IBook } from '@app/books/interface/book.interface';
-import { CartService } from '@app/cart/services/cart/cart.service';
+import { IBook } from '@app/books';
+import { CartService } from '@app/cart';
 @Component({
   selector: 'app-book-card',
   templateUrl: './book-card.component.html',
@@ -12,17 +12,17 @@ export class BookCardComponent implements OnInit {
   @Input()
   public book!: IBook;
 
-  public constructor(
+  constructor(
     private readonly _cartService: CartService,
   ) { }
 
   public ngOnInit(): void {
     if (this.book) {
-      this._cartService.markItem(this.book);
+      this.book.isInCart = this._cartService.isInCart(this.book);
     }
   }
 
-  public toogleToCart(book: IBook): void {
+  public toggleToCart(book: IBook): void {
     book.isInCart = !book.isInCart;
 
     if (book.isInCart) {

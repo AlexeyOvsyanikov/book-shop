@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { IBook } from '@app/books/interface/book.interface';
-import { ICart } from '@app/cart/interface/cart.interface';
-import { ICartitem } from '@app/cart/interface/cart.item.interface';
+import { IBook } from '@app/books';
+import { ICart , ICartitem } from '@app/cart';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +15,7 @@ export class CartService {
 
   private _books: IBook[] = [];
 
-  public constructor() {
+  constructor() {
     const cart = localStorage.getItem('cart');
 
     if (cart) {
@@ -40,7 +39,6 @@ export class CartService {
         this._books.push(book);
       }
 
-      this.cart.cartTotal += item.price;
       this._reloadCartTotal();
 
       localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -73,26 +71,27 @@ export class CartService {
 
   public removeFromCart(id: number): void {
     const itemIndex = this.cart.cartItems.findIndex((i) => i.id === id);
-    const item = this.cart.cartItems.find((i) => i.id === id);
-    const checkBook = this._books.find((b) => b.id === id);
 
-    if (itemIndex !== -1 && item) {
+    if (itemIndex !== -1) {
       this.cart.cartItems.splice(itemIndex, 1);
 
       this._reloadCartTotal();
       localStorage.setItem('cart', JSON.stringify(this.cart));
     }
 
+    const checkBook = this._books.find((b) => b.id === id);
+    const checkBookIndex = this._books.findIndex((b) => b.id === id);
+
     if (checkBook) {
       checkBook.isInCart = false;
+      this._books.splice(checkBookIndex , 1);
     }
   }
 
-  public markItem(book: IBook): void {
-    const checkItem = this.cart.cartItems.find((b) => b.id === book.id);
-    if (checkItem) {
-      book.isInCart = true;
-    }
+  public isInCart(book: IBook): boolean {
+    const bookIndex = this.cart.cartItems.findIndex((b) => b.id === book.id);
+
+    return bookIndex !== -1;
   }
 
   public initBooks(books: IBook[]): void {

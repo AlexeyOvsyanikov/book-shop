@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { CartComponent } from '@app/cart/components/cart/cart.component';
-import { ICart } from '@app/cart/interface/cart.interface';
-import { CartService } from '@app/cart/services/cart/cart.service';
+import { CartComponent , CartService , ICart } from '@app/cart';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   public cart: ICart;
 
-  public constructor(
+  constructor(
     private readonly _cartDialog: MatDialog,
     private readonly _cartService: CartService,
   ) {
