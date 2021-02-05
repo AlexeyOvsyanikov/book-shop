@@ -3,8 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService , IBook } from '@app/books';
 import { CartService } from '@app/cart';
+
+import { BooksService } from '../../services/books/books.service';
+import { IBook } from '../../interface/book.interface';
 
 @UntilDestroy()
 @Component({

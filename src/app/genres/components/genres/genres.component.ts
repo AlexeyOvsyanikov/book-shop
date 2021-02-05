@@ -8,7 +8,9 @@ import { tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { IApiResponse , IMeta } from '@app/core';
-import { GenresService , IGenre } from '@app/genres';
+
+import { GenresService } from '../../services/genres/genres.service';
+import { IGenre } from '../../interface/genre.interface';
 
 @UntilDestroy()
 @Component({

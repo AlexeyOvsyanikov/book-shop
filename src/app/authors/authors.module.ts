@@ -8,6 +8,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthorsComponent } from './components/authors/authors.component';
 import { AuthorComponent } from './components/author/author.component';
 
+
 import { BookModule } from '@libs/book';
 
 @NgModule({
@@ -18,9 +19,9 @@ import { BookModule } from '@libs/book';
   imports: [
     CommonModule,
     RouterModule,
+    BookModule,
     MatListModule,
     MatPaginatorModule,
-    BookModule,
   ],
 })
 export class AuthorsModule { }

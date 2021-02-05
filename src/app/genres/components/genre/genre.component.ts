@@ -3,8 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { GenresService , IGenre } from '@app/genres';
 import { CartService } from '@app/cart';
+
+import { GenresService } from '../../services/genres/genres.service';
+import { IGenre } from '../../interface/genre.interface';
 @UntilDestroy()
 @Component({
   selector: 'app-genre',

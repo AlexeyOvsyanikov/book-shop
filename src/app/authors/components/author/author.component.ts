@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AuthorsService , IAuthor } from '@app/authors';
+import { AuthorsService } from '../../services/authors/authors.service';
+import { IAuthor } from '../../interface/author.interface';
+
 @UntilDestroy()
 @Component({
   selector: 'app-author',

@@ -8,7 +8,9 @@ import { tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { IMeta , IApiResponse } from '@app/core';
-import { AuthorsService , IAuthor } from '@app/authors';
+
+import { AuthorsService } from '../../services/authors/authors.service';
+import { IAuthor } from '../../interface/author.interface';
 
 @UntilDestroy()
 @Component({

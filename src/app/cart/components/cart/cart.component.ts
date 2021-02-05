@@ -4,8 +4,11 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService } from '@app/books';
-import { CartService , ICart , ICartitem } from '@app/cart';
+import { BooksService } from '@app/books/services/books/books.service';
+
+import { CartService } from '../../services/cart/cart.service';
+import { ICart } from '../../interface/cart.interface';
+import { ICartitem } from '../../interface/cart.item.interface';
 
 @UntilDestroy()
 @Component({

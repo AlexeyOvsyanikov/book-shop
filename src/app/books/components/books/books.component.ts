@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService , IBook } from '@app/books';
 import { CartService } from '@app/cart';
 import { IMeta , IApiResponse } from '@app/core';
+
+import { BooksService } from '../../services/books/books.service';
+import { IBook } from '../../interface/book.interface';
 
 @UntilDestroy()
 @Component({

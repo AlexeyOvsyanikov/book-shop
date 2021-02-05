@@ -10,11 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { AppRoutingModule } from '@app/app-routing.module';
 import { AuthorsModule } from '@app/authors';
 import { GenresModule } from '@app/genres';
 import { BooksModule } from '@app/books';
 import { CartModule } from '@app/cart';
+
+import { AppRoutingModule } from '../../app-routing.module';
 
 import { HeaderComponent } from './components/header/header.component';
 import { ContentComponent } from './components/content/content.component';
