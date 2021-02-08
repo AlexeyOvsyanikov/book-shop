@@ -5,6 +5,5 @@ export interface ICartitem {
   price: number;
   amount: number;
   image?: string;
-  itemTotal?: number;
 
 }

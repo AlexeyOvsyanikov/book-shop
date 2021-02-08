@@ -1,8 +1,8 @@
 <h2 class="text-center">Authors</h2>
 
-<div *ngIf="authors && authors.length > 0" class="d-flex content-center">
+<div *ngIf="isAuthorsLoaded" class="d-flex content-center">
 
-  <div style="width: 35%;">
+  <div class="w35">
     <mat-list>
       <ng-container *ngFor="let author of authors">
         <mat-list-item  class="list-item-black-color" >

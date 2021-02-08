@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/core/interface/api.response.interface';
-import { IBook } from '@app/books/interface/book.interface';
+import { IApiResponse } from '@app/core';
+import { IBook } from '@app/books';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class BooksService {
 
   private readonly _apiBooksUrl = 'books';
 
-  public constructor(
+  constructor(
     private readonly _http: HttpClient,
   ) { }
 
@@ -32,6 +32,18 @@ export class BooksService {
 
   public getBook(id: number): Observable<IBook> {
     return this._http.get<IBook>(`/api/${this._apiBooksUrl}/${id}`);
+  }
+
+  public getBooksByIds(ids: number[]): Observable<IApiResponse> {
+    let params = new HttpParams();
+    ids.forEach((id) => params = params.append('q[id_in][]', String(id))) ;
+
+    return this._http.get<IApiResponse>(
+      `/api/${this._apiBooksUrl}`,
+      {
+        params,
+      },
+    );
   }
 
 }

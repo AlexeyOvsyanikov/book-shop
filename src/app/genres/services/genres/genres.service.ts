@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/core/interface/api.response.interface';
-import { IGenre } from '@app/genres/interface/genre.interface';
+import { IApiResponse } from '@app/core';
+import { IGenre } from '@app/genres';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class GenresService {
 
   private readonly _apiGenresUrl = 'genres';
 
-  public constructor(
+  constructor(
     private readonly _http: HttpClient,
   ) { }
 

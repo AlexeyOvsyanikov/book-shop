@@ -556,10 +556,10 @@
     "rxjs-no-unsafe-first": true,
     "rxjs-no-unsafe-scope": false,
     "rxjs-no-unsafe-switchmap": true,
-    "rxjs-no-unsafe-takeuntil": true,
+    "rxjs-no-unsafe-takeuntil": false,
     "rxjs-prefer-angular-async-pipe": false,
     "rxjs-prefer-angular-composition": false,
-    "rxjs-prefer-angular-takeuntil": true,
+    "rxjs-prefer-angular-takeuntil": false,
     "rxjs-prefer-observer": true,
     "rxjs-suffix-subjects": false,
     // codelizer

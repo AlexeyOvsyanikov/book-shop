@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 
 import { PageEvent } from '@angular/material/paginator';
 
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { GenresService } from '@app/genres/services/genres/genres.service';
-import { IGenre } from '@app/genres/interface/genre.interface';
-import { IMeta } from '@app/core/interface/meta.interface';
+import { IApiResponse , IMeta } from '@app/core';
+
+import { GenresService } from '../../services/genres/genres.service';
+import { IGenre } from '../../interface/genre.interface';
 
 @UntilDestroy()
 @Component({
@@ -23,31 +27,32 @@ export class GenresComponent implements OnInit {
 
   public isGenresLoaded = false;
 
-  public constructor(
+  constructor(
     private readonly _genresService: GenresService,
   ) { }
 
   public ngOnInit(): void {
-    this._genresService.getGenres()
+    this._loadGenres()
       .pipe(
-        untilDestroyed(this),
+        tap(() => this.isGenresLoaded = true),
       )
-      .subscribe((response) => {
-        this.genres = response.genres || [];
-        this.meta = response.meta;
-        this.isGenresLoaded = true;
-      });
+      .subscribe();
   }
 
   public pageChanged(pageEvent: PageEvent): void {
-    this._genresService.getGenres(pageEvent.pageIndex + 1, pageEvent.pageSize)
+    this._loadGenres(pageEvent.pageIndex + 1, pageEvent.pageSize)
+      .subscribe();
+  }
+
+  private _loadGenres(page = 1 , limit = 10): Observable<IApiResponse> {
+    return this._genresService.getGenres(page, limit)
       .pipe(
+        tap((response) => {
+          this.genres = response.genres || [];
+          this.meta = response.meta;
+        }),
         untilDestroyed(this),
-      )
-      .subscribe((response) => {
-        this.genres = response.genres || [];
-        this.meta = response.meta;
-      });
+      );
   }
 
 }

@@ -4,9 +4,9 @@
 
     <div>
       <a routerLink="books" class="logo">Book-shop</a>
-      <a mat-button routerLink="authors">Authors</a>
-      <a mat-button routerLink="genres">Genres</a>
-      <a mat-button routerLink="books">Books</a>
+      <a mat-button routerLink="authors" routerLinkActive="active-route">Authors</a>
+      <a mat-button routerLink="genres" routerLinkActive="active-route">Genres</a>
+      <a mat-button routerLink="books" routerLinkActive="active-route">Books</a>
     </div>
 
     <div (click)="openCart()" class="cart" style="margin-top: 10px;">

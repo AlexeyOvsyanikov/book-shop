@@ -6,14 +6,20 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AuthorsComponent } from './components/authors/authors.component';
+import { AuthorComponent } from './components/author/author.component';
+
+
+import { BookModule } from '@libs/book';
 
 @NgModule({
   declarations: [
     AuthorsComponent,
+    AuthorComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
+    BookModule,
     MatListModule,
     MatPaginatorModule,
   ],

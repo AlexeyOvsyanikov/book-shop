@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { switchMap } from 'rxjs/operators';
-
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AuthorsService } from '@app/authors/services/authors/authors.service';
-import { IAuthor } from '@app/authors/interface/author.interface';
+import { AuthorsService } from '../../services/authors/authors.service';
+import { IAuthor } from '../../interface/author.interface';
 
 @UntilDestroy()
 @Component({
@@ -19,16 +17,17 @@ export class AuthorComponent implements OnInit {
   @Input()
   public author!: IAuthor;
 
-  public constructor(
+  constructor(
     private readonly _authorService: AuthorsService,
     private readonly _activatedRoute: ActivatedRoute,
   ) { }
 
   public ngOnInit(): void {
-    this._activatedRoute.params.pipe(
-      switchMap((params) => this._authorService.getAuthor(params.id)),
-      untilDestroyed(this),
-    ).subscribe((author) => this.author = author);
+    this._authorService.getAuthor(this._activatedRoute.snapshot.params.id)
+      .pipe(untilDestroyed(this))
+      .subscribe((author) => {
+        this.author = author;
+      });
   }
 
 }

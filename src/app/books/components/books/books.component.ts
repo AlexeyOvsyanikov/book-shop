@@ -2,11 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 import { PageEvent } from '@angular/material/paginator';
 
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { BooksService } from '@app/books/services/books/books.service';
-import { IMeta } from '@app/core/interface/meta.interface';
-import { IBook } from '@app/books/interface/book.interface';
+import { CartService } from '@app/cart';
+import { IMeta , IApiResponse } from '@app/core';
+
+import { BooksService } from '../../services/books/books.service';
+import { IBook } from '../../interface/book.interface';
 
 @UntilDestroy()
 @Component({
@@ -21,33 +26,36 @@ export class BooksComponent implements OnInit {
 
   public pageSizeOptions = [5, 10];
 
-  public bookLoaded = false;
+  public isBooksLoaded = false;
 
-  public constructor(
+  constructor(
     private readonly _booksService: BooksService,
+    private readonly _cartService: CartService,
   ) { }
 
   public ngOnInit(): void {
-    this._booksService.getBooks()
+    this._loadBooks()
       .pipe(
-        untilDestroyed(this),
+        tap(() => this.isBooksLoaded = true),
       )
-      .subscribe((response) => {
-        this.books = response.books || [];
-        this.meta = response.meta;
-        this.bookLoaded = true;
-      });
+      .subscribe();
   }
 
   public pageChanged(pageEvent: PageEvent): void {
-    this._booksService.getBooks(pageEvent.pageIndex + 1, pageEvent.pageSize)
+    this._loadBooks(pageEvent.pageIndex + 1, pageEvent.pageSize)
+      .subscribe();
+  }
+
+  private _loadBooks(page = 1 , limit = 10): Observable<IApiResponse> {
+    return this._booksService.getBooks(page, limit)
       .pipe(
+        tap((response) => {
+          this.books = response.books || [];
+          this.meta = response.meta;
+          this._cartService.initBooks(this.books);
+        }),
         untilDestroyed(this),
-      )
-      .subscribe((response) => {
-        this.books = response.books || [];
-        this.meta = response.meta;
-      });
+      );
   }
 
 }

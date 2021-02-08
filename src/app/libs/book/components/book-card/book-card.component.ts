@@ -1,25 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { IBook } from '@app/books/interface/book.interface';
-import { CartService } from '@app/cart/services/cart/cart.service';
+import { IBook } from '@app/books';
+import { CartService } from '@app/cart';
 @Component({
-  selector: 'app-book-cart',
-  templateUrl: './book-cart.component.html',
-  styleUrls: ['./book-cart.component.scss'],
+  selector: 'app-book-card',
+  templateUrl: './book-card.component.html',
+  styleUrls: ['./book-card.component.scss'],
 })
-export class BookCartComponent implements OnInit {
+export class BookCardComponent implements OnInit {
 
   @Input()
   public book!: IBook;
 
-  public constructor(
+  constructor(
     private readonly _cartService: CartService,
   ) { }
 
   public ngOnInit(): void {
+    if (this.book) {
+      this.book.isInCart = this._cartService.isInCart(this.book);
+    }
   }
 
-  public toogleToCart(book: IBook): void {
+  public toggleToCart(book: IBook): void {
     book.isInCart = !book.isInCart;
 
     if (book.isInCart) {
@@ -27,7 +30,7 @@ export class BookCartComponent implements OnInit {
         id: book.id,
         amount: 1,
         price: book.price,
-      });
+      } , book);
     } else {
       this._cartService.removeFromCart(book.id);
     }

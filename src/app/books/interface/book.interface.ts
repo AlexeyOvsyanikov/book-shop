@@ -1,4 +1,4 @@
-import { IGenre } from '@app/genres/interface/genre.interface';
+import { IGenre } from '@app/genres';
 
 export interface IBook {
   id: number;

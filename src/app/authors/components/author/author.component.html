@@ -1,2 +1,14 @@
-<h3>{{ author.first_name }} {{ author.last_name }}</h3>
-<h4>Books:</h4>
+<div *ngIf="author">
+
+  <h2 class="text-center">{{ author.first_name }} {{ author.last_name }}</h2>
+  <div *ngIf="author.books?.length === 0" class="text-center">This author hasn't books yet</div>
+
+  <div class="d-flex content-center" >
+    <div class="d-flex book-list-wrapper">
+      <app-book-card *ngFor="let book of author.books" [book]="book"></app-book-card>
+    </div>
+  </div>
+
+</div>
+
+
