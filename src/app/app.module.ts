@@ -14,7 +14,6 @@ import { LayoutModule } from '@libs/layout';
   ],
   imports: [
     CoreModule,
-    AppRoutingModule,
     LayoutModule,
   ],
   bootstrap: [

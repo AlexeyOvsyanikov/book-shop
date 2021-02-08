@@ -9,11 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-
-import { AuthorsModule } from '@app/authors';
-import { GenresModule } from '@app/genres';
-import { BooksModule } from '@app/books';
-import { CartModule } from '@app/cart';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from '../../app-routing.module';
 
@@ -34,12 +30,8 @@ import { BookShopComponent } from './components/book-shop/book-shop.component';
     RouterModule,
     AppRoutingModule,
 
-    BooksModule,
-    GenresModule,
-    AuthorsModule,
-    CartModule,
-
     MatToolbarModule,
+    MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
     MatBadgeModule,
