@@ -9,15 +9,15 @@ const routes: Routes = [
   },
   {
     path: 'genres',
-    loadChildren: () => import('@app/genres').then((m) => m.GenresRoutingModuleModule),
+    loadChildren: () => import('@app/genres').then((m) => m.GenresModule),
   },
   {
     path: 'authors',
-    loadChildren: () => import('@app/authors').then((m) => m.AuthorsRoutingModuleModule),
+    loadChildren: () => import('@app/authors').then((m) => m.AuthorsModule),
   },
   {
     path: 'books',
-    loadChildren: () => import('@app/books').then((m) => m.BooksRoutingModuleModule),
+    loadChildren: () => import('@app/books').then((m) => m.BooksModule),
   },
 ];
 

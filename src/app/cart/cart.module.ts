@@ -16,7 +16,9 @@ import { CartComponent } from './components/cart/cart.component';
   ],
   imports: [
     CommonModule,
+
     CartRoutingModule,
+
     FormsModule,
     MatButtonModule,
     MatIconModule,

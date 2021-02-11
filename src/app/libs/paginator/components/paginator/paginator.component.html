@@ -1,0 +1,5 @@
+<mat-paginator  [length]="meta?.records"
+                [pageSize]="meta?.limit"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="onChanged($event)">
+</mat-paginator>

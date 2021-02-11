@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
+
 import { IBook } from '@app/books';
 import { ICart , ICartitem } from '@app/cart';
 
@@ -8,100 +10,148 @@ import { ICart , ICartitem } from '@app/cart';
 })
 export class CartService {
 
-  public cart: ICart = {
-    cartItems: [],
-    cartTotal: 0,
-  };
+  private _items: ICartitem[] = [];
+  private _total = 0;
 
-  private _books: IBook[] = [];
+  private readonly _items$ = new BehaviorSubject<ICartitem[]>([]);
+  private readonly _length$ = new BehaviorSubject<number>(0);
+  private readonly _total$ = new BehaviorSubject<number>(0);
+
+  private readonly _bookAdded$ = new BehaviorSubject<number>(-1);
+  private readonly _bookRemoved$ = new BehaviorSubject<number>(-1);
 
   constructor() {
-    const cart = localStorage.getItem('cart');
-
-    if (cart) {
-      const deserializedCart = JSON.parse(cart);
-      this.cart.cartItems = deserializedCart.cartItems;
-      this.cart.cartTotal = deserializedCart.cartTotal;
-    } else {
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
+    this._load();
   }
 
-  public addToCart(item: ICartitem , book: IBook): void {
-    const checkItem = this.cart.cartItems.find((b) => b.id === item.id);
-
-    if (!checkItem) {
-      this.cart.cartItems.push(item);
-
-      const checkBook = this._books.find((b) => b.id === item.id);
-
-      if (!checkBook) {
-        this._books.push(book);
-      }
-
-      this._reloadCartTotal();
-
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
+  public get total(): number {
+    return this._total;
   }
 
-  public updateItemAmount(up: boolean , item: ICartitem): void {
-    item.amount = up ? item.amount + 1 : item.amount - 1;
-
-    const realItem = this.cart.cartItems.find((i) => i.id === item.id);
-
-    if (realItem) {
-      realItem.amount = item.amount;
-    }
-
-    this._reloadCartTotal();
-    localStorage.setItem('cart', JSON.stringify(this.cart));
+  public get length(): number {
+    return this._items.length;
   }
 
-  public changeAmount(amount: number, id: number): void {
-    const item = this.cart.cartItems.find((i) => i.id === id);
-
-    if (item) {
-      item.amount = amount;
-    }
-
-    this._reloadCartTotal();
-    localStorage.setItem('cart', JSON.stringify(this.cart));
+  public get items$(): Observable<ICartitem[]> {
+    return this._items$.asObservable();
   }
 
-  public removeFromCart(id: number): void {
-    const itemIndex = this.cart.cartItems.findIndex((i) => i.id === id);
+  public get items(): ICartitem[] {
+    return this._items;
+  }
+
+  public get length$(): Observable<number> {
+    return this._length$.asObservable();
+  }
+
+  public get total$(): Observable<number> {
+    return this._total$.asObservable();
+  }
+
+  public get bookAdded$(): Observable<number> {
+    return this._bookAdded$.asObservable();
+  }
+
+  public get bookRemoved$(): Observable<number> {
+    return this._bookRemoved$.asObservable();
+  }
+
+  public add(item: ICartitem): void {
+    const checkItem = this._items.find((b) => b.id === item.id);
+
+    if (checkItem) {
+      return;
+    }
+
+    this._items.push(item);
+
+    this._set('cart', { items: this._items , total: this._total });
+
+    this._bookAdded$.next(item.id);
+  }
+
+  public remove(id: number): void {
+    const itemIndex = this._items.findIndex((i) => i.id === id);
 
     if (itemIndex !== -1) {
-      this.cart.cartItems.splice(itemIndex, 1);
+      this._items.splice(itemIndex, 1);
 
-      this._reloadCartTotal();
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
+      this._bookRemoved$.next(id);
+      this._items$.next(this._items);
 
-    const checkBook = this._books.find((b) => b.id === id);
-    const checkBookIndex = this._books.findIndex((b) => b.id === id);
-
-    if (checkBook) {
-      checkBook.isInCart = false;
-      this._books.splice(checkBookIndex , 1);
+      this._set('cart', { items: this._items , total: this._total });
     }
   }
 
-  public isInCart(book: IBook): boolean {
-    const bookIndex = this.cart.cartItems.findIndex((b) => b.id === book.id);
+  public increase(item: ICartitem): void {
+    item.amount++;
+    this._set('cart', { items: this._items , total: this._total });
+  }
+
+  public decrease(item: ICartitem): void {
+    if (item.amount === 1) {
+      return ;
+    }
+
+    item.amount--;
+    this._set('cart', { items: this._items , total: this._total });
+  }
+
+  public changeAmount(id: number , amount: number): void {
+    const item = this._items.find((i) => i.id === id);
+
+    if (item && amount > 0) {
+      item.amount = amount;
+    } else if (item) {
+      item.amount = 1;
+    }
+
+    this._set('cart', { items: this._items , total: this._total });
+  }
+
+
+  public check(book: IBook): boolean {
+    const bookIndex = this._items.findIndex((b) => b.id === book.id);
 
     return bookIndex !== -1;
   }
 
-  public initBooks(books: IBook[]): void {
-    this._books = books;
+  private _reloadTotal(): void {
+    this._total = this._items
+      .map((i) => {
+        return i.price ? i.amount * i.price : 0;
+      })
+      .reduce((acc , current) => acc + current , 0);
   }
 
-  private _reloadCartTotal(): void {
-    this.cart.cartTotal = this.cart.cartItems.map((i) => {
-      return i.amount * i.price;
-    }).reduce((acc , current) => acc + current , 0);
+  private _get(key: string): string {
+    return localStorage.getItem(key) ?? '';
+  }
+
+  private _set(key: string , cart: ICart): void {
+    this._reloadTotal();
+
+    const itemsForSerialize = cart.items.map(({ price , title , image , ...item }) => item);
+
+    localStorage.setItem(key, JSON.stringify({ items: itemsForSerialize , total: this._total }));
+    this._updateTotalAndLengthStreams();
+  }
+
+  private _load(): void {
+    const cartJSON = this._get('cart');
+
+    if (cartJSON) {
+      const cart: ICart = JSON.parse(cartJSON);
+      this._items = cart.items ?? [];
+      this._total = cart.total ?? 0;
+    } else {
+      this._set('cart', { items: this._items , total: this._total });
+    }
+  }
+
+  private _updateTotalAndLengthStreams(): void {
+    this._length$.next(this._items.length);
+    this._total$.next(this._total);
   }
 
 }

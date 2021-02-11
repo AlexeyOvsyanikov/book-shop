@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/core';
-import { IBook } from '@app/books';
+import { IBook } from '../../interface/book.interface';
+import { IBooksApiResponse } from '../../interface/api.response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,16 +13,19 @@ export class BooksService {
 
   private readonly _apiBooksUrl = 'books';
 
+  public get defaultImageUrl(): string {
+    return 'https://pngicon.ru/file/uploads/Book3.png';
+  }
   constructor(
     private readonly _http: HttpClient,
   ) { }
 
-  public getBooks(page = 1 , limit = 10): Observable<IApiResponse> {
+  public list(page = 1 , limit = 10): Observable<IBooksApiResponse> {
     const params = new HttpParams()
       .append('page' , String(page))
       .append('limit' , String(limit));
 
-    return this._http.get<IApiResponse>(
+    return this._http.get<IBooksApiResponse>(
       `/api/${this._apiBooksUrl}`,
       {
         params,
@@ -30,15 +33,15 @@ export class BooksService {
     );
   }
 
-  public getBook(id: number): Observable<IBook> {
+  public get(id: number): Observable<IBook> {
     return this._http.get<IBook>(`/api/${this._apiBooksUrl}/${id}`);
   }
 
-  public getBooksByIds(ids: number[]): Observable<IApiResponse> {
+  public listByIds(ids: number[]): Observable<IBooksApiResponse> {
     let params = new HttpParams();
     ids.forEach((id) => params = params.append('q[id_in][]', String(id))) ;
 
-    return this._http.get<IApiResponse>(
+    return this._http.get<IBooksApiResponse>(
       `/api/${this._apiBooksUrl}`,
       {
         params,

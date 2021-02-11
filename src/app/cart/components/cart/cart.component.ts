@@ -1,13 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit ,
+  ViewChildren ,
+  AfterViewInit ,
+  ElementRef ,
+  QueryList,
+} from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
+
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime , pluck, tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { BooksService } from '@app/books/services/books/books.service';
+import { IBook } from '@app/books';
 
 import { CartService } from '../../services/cart/cart.service';
-import { ICart } from '../../interface/cart.interface';
 import { ICartitem } from '../../interface/cart.item.interface';
 
 @UntilDestroy()
@@ -16,87 +26,96 @@ import { ICartitem } from '../../interface/cart.item.interface';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
-export class CartComponent implements OnInit {
-
-  public cart: ICart;
-  public cartItems!: ICartitem[];
+export class CartComponent implements OnInit, AfterViewInit {
 
   public itemsSource!: MatTableDataSource<ICartitem>;
 
-  public displayedColumns = ['image', 'title', 'price', 'itemTotal', 'amount' , 'remove'];
-  public displayedFooterColumns = ['first', 'second', 'trird', 'fourth', 'fifth' , 'sixth'];
+  public readonly displayedColumns = ['image', 'title', 'price', 'itemTotal', 'amount' , 'remove'];
+  public readonly displayedFooterColumns = ['first', 'second', 'trird', 'fourth', 'fifth' , 'sixth'];
+
+  public cart: ICartitem[] = [];
+
+  public readonly bookMap = new Map<number, IBook>();
+
+  @ViewChildren('amount')
+  private readonly _items!: QueryList<ElementRef>;
 
   constructor(
     private readonly _cartService: CartService,
     private readonly _booksService: BooksService,
   ) {
-    this.cart = this._cartService.cart;
+    this.cart = this._cartService.items;
 
-    if (this.cart.cartItems.length !== 0) {
-      this._createCartWithFullItemsStruct();
-    }
+    this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
+
+    this._createCartWithFullItemsStruct();
+  }
+
+  public get total$(): Observable<number> {
+    return this._cartService.total$;
   }
 
   public ngOnInit(): void {
   }
 
-  public updateAmount(up: boolean , item: ICartitem): void {
-    this._cartService.updateItemAmount(up, item);
-    if (item.amount === 0) {
-      if (this.remove(item.id)) {
-        this._cartService.removeFromCart(item.id);
-      } else {
-        item.amount = 1;
-      }
-    }
+  public ngAfterViewInit(): void {
+    this._addEventListenersToAmountInputs();
   }
 
-  public inputAmount(item: ICartitem): void {
-    const amount = Number(item.amount);
-
-    if (amount && amount > 0) {
-      this._cartService.changeAmount(amount, item.id);
-    } else {
-      this._cartService.changeAmount(1, item.id);
-      item.amount = 1;
-    }
+  public remove(id: number) : void {
+    this._cartService.remove(id);
+    this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
   }
 
-  public remove(id: number): boolean {
-    if (confirm('Are you shure to remove item?')) {
-      this._cartService.removeFromCart(id);
-      const itemIndex = this.cartItems.findIndex((b) => b.id === id);
+  public increaseAmount(item: ICartitem): void {
+    this._cartService.increase(item);
+  }
 
-      if (itemIndex !== -1) {
-        this.cartItems.splice(itemIndex , 1);
-        this.itemsSource = new MatTableDataSource<ICartitem>(this.cartItems);
-      }
-
-      return true;
-    }
-
-    return false;
+  public decreaseAmount(item: ICartitem): void {
+    this._cartService.decrease(item);
   }
 
   private _createCartWithFullItemsStruct(): void {
-    this.cartItems = this.cart.cartItems.map((i) => ({ ...i }));
+    const ids = this.cart.map((item) => item.id);
 
-    const ids = this.cart.cartItems.map((item) => item.id);
-    this._booksService.getBooksByIds(ids)
+    this._booksService.listByIds(ids)
       .pipe(
+        pluck('books'),
+        tap((books) => {
+          this._transformCartItems(books);
+        }),
         untilDestroyed(this),
       )
-      .subscribe((response) => {
-        const books = response.books;
-        books?.forEach((book) => {
-          const item = this.cartItems.find((i) => i.id === book.id);
-          if (item) {
-            item.title = book.title;
-            item.image = item.image || 'https://pngicon.ru/file/uploads/Book3.png';
-          }
-        });
-        this.itemsSource = new MatTableDataSource<ICartitem>(this.cartItems);
-      });
+      .subscribe();
+  }
+
+  private _transformCartItems(books: IBook[]): void {
+    books.forEach((book) => {
+      const item = this.cart.find((i) => i.id === book.id);
+
+      if (item) {
+        item.title = book.title;
+        item.price = book.price;
+        item.image = item.image || this._booksService.defaultImageUrl;
+      }
+    });
+
+    this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
+  }
+
+  private _addEventListenersToAmountInputs(): void {
+    this._items.forEach((element: ElementRef<HTMLInputElement>) => {
+      fromEvent<InputEvent>(element.nativeElement , 'input')
+        .pipe(
+          debounceTime(400),
+          tap((e) => {
+            const input = element.nativeElement;
+            this._cartService.changeAmount(Number(input.id) , Number(input.value));
+          }),
+          untilDestroyed(this),
+        )
+        .subscribe();
+    });
   }
 
 }

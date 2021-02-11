@@ -1,0 +1,61 @@
+.d-flex{
+  display: flex;
+}
+
+.content-center{
+  justify-content: center;
+}
+
+.align-content-center{
+  align-content: center;
+}
+
+.align-items-center{
+  align-items: center;
+}
+
+.space-between{
+  justify-content: space-between;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.w1000 {
+  width: 1000px;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.w50{
+  width: 50%;
+}
+
+.w35{
+  width: 35%;
+}
+
+.mrt10 {
+  margin-top: 10px
+}
+
+.mrt15 {
+  margin-top: 15px
+}
+
+.mrb15 {
+  margin-bottom: 15px
+}
+
+.mr10{
+  margin: 10px;
+}
+
+.list-wrapper{
+  width: 70%;
+  flex-wrap: wrap;
+  margin-left: 35px;
+}

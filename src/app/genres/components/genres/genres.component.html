@@ -1,24 +1,21 @@
-<h2 style="text-align: center">Genres</h2>
+<h2 class="text-center">Genres</h2>
 
-<div *ngIf="isGenresLoaded" style="display: flex; justify-content: center;">
+<div *ngIf="isGenresLoaded" class="d-flex content-center">
 
-  <div style="width: 35%;">
+  <div class="w35">
     <mat-list >
       <ng-container *ngFor="let genre of genres">
-        <mat-list-item class="list-item-black-color" >
-          <a class="black-link" routerLink="{{ genre.id }}">
+        <mat-list-item class="mat-list-item-black-color" >
+          <a class="black-link" [routerLink]="['/genres' , genre.id]">
             <span>{{ genre.name }}</span>
           </a>
-          <mat-divider class="divider-border"></mat-divider>
+          <mat-divider class="mat-divider-border"></mat-divider>
         </mat-list-item>
       </ng-container>
     </mat-list>
 
-    <mat-paginator [length]="meta?.records"
-                   [pageSize]="meta?.limit"
-                   [pageSizeOptions]="pageSizeOptions"
-                   (page)="pageChanged($event)">
-    </mat-paginator>
+    <app-paginator [meta]="meta" (changed)="pageChanged($event)"></app-paginator>
+
   </div>
 
 </div>

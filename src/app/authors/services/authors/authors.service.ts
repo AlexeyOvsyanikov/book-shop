@@ -3,8 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IApiResponse } from '@app/core';
-import { IAuthor } from '@app/authors';
+import { IAuthorApiResponse } from '../../interface/api.response.interface';
+import { IAuthor } from '../../interface/author.interface';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -16,13 +17,13 @@ export class AuthorsService {
     private readonly _http: HttpClient,
   ) { }
 
-  public getAuthors(page = 1 , limit = 10): Observable<IApiResponse> {
+  public list(page = 1 , limit = 10): Observable<IAuthorApiResponse> {
     const params = new HttpParams()
       .append('page' , String(page))
       .append('limit' , String(limit));
 
     return this._http
-      .get<IApiResponse>(
+      .get<IAuthorApiResponse>(
         `/api/${this._apiAuthorsUrl}`,
       {
         params,
@@ -30,7 +31,7 @@ export class AuthorsService {
       );
   }
 
-  public getAuthor(id: number): Observable<IAuthor> {
+  public get(id: number): Observable<IAuthor> {
     return this._http.get<IAuthor>(`/api/${this._apiAuthorsUrl}/${id}`);
   }
 

@@ -4,7 +4,7 @@
   <div *ngIf="genre.books?.length === 0" class="text-center">No One book belongs to this genre</div>
 
   <div class="d-flex content-center" >
-    <div class="d-flex book-list-wrapper">
+    <div class="d-flex list-wrapper">
       <app-book-card *ngFor="let book of genre.books" [book]="book"></app-book-card>
     </div>
   </div>
