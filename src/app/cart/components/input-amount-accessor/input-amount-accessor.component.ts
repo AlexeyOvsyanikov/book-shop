@@ -24,11 +24,13 @@ export class InputAmountAccessorComponent implements OnInit, ControlValueAccesso
   @Output()
   public readonly amountChanged = new EventEmitter<number>();
 
-  public group: FormGroup = new FormGroup({
-    amount: new FormControl(),
-  });
+  public group: FormGroup;
 
-  constructor() { }
+  constructor() {
+    this.group = new FormGroup({
+      amount: new FormControl(),
+    });
+  }
 
   public writeValue(amount: number): void {
     this.amount = amount;
