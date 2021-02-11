@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@common/interface/api.response.meta.interface';
+import { IMeta } from '@common';
 
-import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common/constants/paginator';
+import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
 import { AuthorsService } from '../../services/authors/authors.service';
 import { IAuthor } from '../../interface/author.interface';

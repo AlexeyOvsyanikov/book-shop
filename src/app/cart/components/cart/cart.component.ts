@@ -1,18 +1,12 @@
-import {
-  Component,
-  OnInit ,
-  ViewChildren ,
-  AfterViewInit ,
-  ElementRef ,
-  QueryList,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { MatTableDataSource } from '@angular/material/table';
 
-import { fromEvent, Observable } from 'rxjs';
-import { debounceTime , pluck, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { pluck, tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ConfirmDialogService } from '@common';
 
 import { BooksService } from '@app/books/services/books/books.service';
 import { IBook } from '@app/books';
@@ -26,7 +20,7 @@ import { ICartitem } from '../../interface/cart.item.interface';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
-export class CartComponent implements OnInit, AfterViewInit {
+export class CartComponent implements OnInit {
 
   public itemsSource!: MatTableDataSource<ICartitem>;
 
@@ -37,12 +31,10 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   public readonly bookMap = new Map<number, IBook>();
 
-  @ViewChildren('amount')
-  private readonly _items!: QueryList<ElementRef>;
-
   constructor(
     private readonly _cartService: CartService,
     private readonly _booksService: BooksService,
+    private readonly _confirmDialogService: ConfirmDialogService,
   ) {
     this.cart = this._cartService.items;
 
@@ -58,13 +50,18 @@ export class CartComponent implements OnInit, AfterViewInit {
   public ngOnInit(): void {
   }
 
-  public ngAfterViewInit(): void {
-    this._addEventListenersToAmountInputs();
-  }
-
-  public remove(id: number) : void {
-    this._cartService.remove(id);
-    this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
+  public remove(item: ICartitem) : void {
+    this._confirmDialogService.open(`Are you shure to remove "${item.title}" from cart?`)
+      .pipe(
+        tap((result) => {
+          if (result) {
+            this._cartService.remove(item.id);
+            this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
+          }
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 
   public increaseAmount(item: ICartitem): void {
@@ -73,6 +70,10 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   public decreaseAmount(item: ICartitem): void {
     this._cartService.decrease(item);
+  }
+
+  public amountChanged(id: number , amount: number): void {
+    this._cartService.changeAmount(id , amount);
   }
 
   private _createCartWithFullItemsStruct(): void {
@@ -101,21 +102,6 @@ export class CartComponent implements OnInit, AfterViewInit {
     });
 
     this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
-  }
-
-  private _addEventListenersToAmountInputs(): void {
-    this._items.forEach((element: ElementRef<HTMLInputElement>) => {
-      fromEvent<InputEvent>(element.nativeElement , 'input')
-        .pipe(
-          debounceTime(400),
-          tap((e) => {
-            const input = element.nativeElement;
-            this._cartService.changeAmount(Number(input.id) , Number(input.value));
-          }),
-          untilDestroyed(this),
-        )
-        .subscribe();
-    });
   }
 
 }

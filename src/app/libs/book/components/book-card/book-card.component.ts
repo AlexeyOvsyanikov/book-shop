@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { tap } from 'rxjs/operators';
 
+import { ConfirmDialogService } from '@common';
 import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
 
 import { IBook } from '@app/books';
@@ -21,6 +22,7 @@ export class BookCardComponent implements OnInit {
 
   constructor(
     private readonly _cartService: CartService,
+    private readonly _confirmDialogService: ConfirmDialogService,
   ) { }
 
   public ngOnInit(): void {
@@ -40,7 +42,16 @@ export class BookCardComponent implements OnInit {
 
       this.isInCart = true;
     } else {
-      this._cartService.remove(book.id);
+      this._confirmDialogService.open(`Are you shure to remove "${book.title}" from cart?`)
+        .pipe(
+          tap((result) => {
+            if (result) {
+              this._cartService.remove(book.id);
+            }
+          }),
+          untilDestroyed(this),
+        )
+        .subscribe();
     }
   }
 

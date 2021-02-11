@@ -4,14 +4,12 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
-import { IMeta } from '@app/common/interface/api.response.meta.interface';
-import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@app/common/constants/paginator';
+import { IMeta } from '@common';
+import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
 import { BooksService } from '../../services/books/books.service';
 import { IBook } from '../../interface/book.interface';
 import { IBooksApiResponse } from '../../interface/api.response.interface';
-
 
 @UntilDestroy()
 @Component({

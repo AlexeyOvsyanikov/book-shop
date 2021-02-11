@@ -10,7 +10,7 @@
     </div>
 
     <div (click)="openCart()" class="cart mrt10">
-      <mat-icon [matBadge]="cartLength" matBadgeColor="warn">shopping_cart</mat-icon>
+      <mat-icon [matBadge]="cartLength$ | async" matBadgeColor="warn">shopping_cart</mat-icon>
     </div>
 
   </div>

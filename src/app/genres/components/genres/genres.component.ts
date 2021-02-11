@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
-import { IMeta } from '@app/common/interface/api.response.meta.interface';
-import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@app/common/constants/paginator';
+import { IMeta } from '@common';
+import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
 import { GenresService } from '../../services/genres/genres.service';
 import { IGenre } from '../../interface/genre.interface';

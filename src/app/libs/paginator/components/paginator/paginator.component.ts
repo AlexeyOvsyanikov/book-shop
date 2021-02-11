@@ -2,8 +2,8 @@ import { Component, Input, OnInit, Output , EventEmitter, Inject } from '@angula
 
 import { PageEvent } from '@angular/material/paginator';
 
-import { IMeta } from '@common/interface/api.response.meta.interface';
-import { PAGE_SIZE_OPTIONS } from '@common/constants/paginator';
+import { IMeta } from '@common';
+import { PAGE_SIZE_OPTIONS } from '@common';
 
 @Component({
   selector: 'app-paginator',

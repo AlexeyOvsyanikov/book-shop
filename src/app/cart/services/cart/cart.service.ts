@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { IBook } from '@app/books';
 import { ICart , ICartitem } from '@app/cart';
+
+import { IJSONDataService } from './json.data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
 
+  private readonly _prefix = 'cart';
   private _items: ICartitem[] = [];
   private _total = 0;
 
-  private readonly _items$ = new BehaviorSubject<ICartitem[]>([]);
   private readonly _length$ = new BehaviorSubject<number>(0);
   private readonly _total$ = new BehaviorSubject<number>(0);
 
   private readonly _bookAdded$ = new BehaviorSubject<number>(-1);
   private readonly _bookRemoved$ = new BehaviorSubject<number>(-1);
 
-  constructor() {
+  constructor(
+    private readonly _dataService: IJSONDataService<ICart>,
+  ) {
     this._load();
   }
 
@@ -30,10 +34,6 @@ export class CartService {
 
   public get length(): number {
     return this._items.length;
-  }
-
-  public get items$(): Observable<ICartitem[]> {
-    return this._items$.asObservable();
   }
 
   public get items(): ICartitem[] {
@@ -65,27 +65,32 @@ export class CartService {
 
     this._items.push(item);
 
-    this._set('cart', { items: this._items , total: this._total });
+    this._reloadTotal();
 
-    this._bookAdded$.next(item.id);
+    this._emitBookAdded(item.id);
+
+    this._save();
   }
 
   public remove(id: number): void {
     const itemIndex = this._items.findIndex((i) => i.id === id);
 
-    if (itemIndex !== -1) {
-      this._items.splice(itemIndex, 1);
-
-      this._bookRemoved$.next(id);
-      this._items$.next(this._items);
-
-      this._set('cart', { items: this._items , total: this._total });
+    if (itemIndex === -1) {
+      return ;
     }
+
+    this._items.splice(itemIndex, 1);
+
+    this._reloadTotal();
+
+    this._emitBookRemoved(id);
+
+    this._save();
   }
 
   public increase(item: ICartitem): void {
     item.amount++;
-    this._set('cart', { items: this._items , total: this._total });
+    this.changeAmount(item.id , item.amount);
   }
 
   public decrease(item: ICartitem): void {
@@ -94,19 +99,27 @@ export class CartService {
     }
 
     item.amount--;
-    this._set('cart', { items: this._items , total: this._total });
+    this.changeAmount(item.id , item.amount);
   }
 
   public changeAmount(id: number , amount: number): void {
     const item = this._items.find((i) => i.id === id);
 
-    if (item && amount > 0) {
-      item.amount = amount;
-    } else if (item) {
-      item.amount = 1;
+    if (!item) {
+      return ;
     }
 
-    this._set('cart', { items: this._items , total: this._total });
+    if (!Number(amount) || Number(amount) < 1) {
+      return ;
+    }
+
+    item.amount = amount;
+
+    this._reloadTotal();
+
+    this._updateTotalAndLengthStreams();
+
+    this._save();
   }
 
 
@@ -124,29 +137,35 @@ export class CartService {
       .reduce((acc , current) => acc + current , 0);
   }
 
-  private _get(key: string): string {
-    return localStorage.getItem(key) ?? '';
-  }
-
-  private _set(key: string , cart: ICart): void {
-    this._reloadTotal();
-
-    const itemsForSerialize = cart.items.map(({ price , title , image , ...item }) => item);
-
-    localStorage.setItem(key, JSON.stringify({ items: itemsForSerialize , total: this._total }));
-    this._updateTotalAndLengthStreams();
-  }
-
   private _load(): void {
-    const cartJSON = this._get('cart');
+    const cart = this._dataService.get(this._prefix);
 
-    if (cartJSON) {
-      const cart: ICart = JSON.parse(cartJSON);
+    if (cart) {
       this._items = cart.items ?? [];
       this._total = cart.total ?? 0;
+
+      this._updateTotalAndLengthStreams();
     } else {
-      this._set('cart', { items: this._items , total: this._total });
+      this._save();
     }
+  }
+
+  private _save(): void {
+    const items = this._items.map(({ price , title , image , ...item }) => item);
+
+    this._dataService.set(this._prefix, { items , total: this._total });
+  }
+
+  private _emitBookAdded(id: number): void {
+    this._bookAdded$.next(id);
+    this._total$.next(this._total);
+    this._length$.next(this._items.length);
+  }
+
+  private _emitBookRemoved(id: number): void {
+    this._bookRemoved$.next(id);
+    this._total$.next(this._total);
+    this._length$.next(this._items.length);
   }
 
   private _updateTotalAndLengthStreams(): void {

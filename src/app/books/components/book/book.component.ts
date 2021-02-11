@@ -4,12 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ConfirmDialogService } from '@common';
 
 import { CartService } from '@app/cart';
 
 import { BooksService } from '../../services/books/books.service';
 import { IBook } from '../../interface/book.interface';
-
 @UntilDestroy()
 @Component({
   selector: 'app-book',
@@ -24,12 +24,12 @@ export class BookComponent implements OnInit {
   constructor(
     private readonly _booksService: BooksService,
     private readonly _cartService: CartService,
+    private readonly _confirmDialogService: ConfirmDialogService,
     private readonly _activatedRoute: ActivatedRoute,
   ) { }
 
   public ngOnInit(): void {
     this._initBook();
-    this._subscribeOnBookRemove();
   }
 
   public toggleToCart(): void {
@@ -42,7 +42,16 @@ export class BookComponent implements OnInit {
 
       this.isInCart = true;
     } else {
-      this._cartService.remove(this.book.id);
+      this._confirmDialogService.open(`Are you shure to remove "${this.book.title}" from cart?`)
+        .pipe(
+          tap((result) => {
+            if (result) {
+              this._cartService.remove(this.book.id);
+            }
+          }),
+          untilDestroyed(this),
+        )
+        .subscribe();
     }
   }
 
@@ -65,7 +74,7 @@ export class BookComponent implements OnInit {
           this.book = book;
           this.isInCart = this._cartService.check(this.book);
 
-          return this._cartService.bookRemoved$;
+          this._subscribeOnBookRemove();
         }),
         untilDestroyed(this),
       )

@@ -1,4 +1,4 @@
-import { IMeta } from '@common/interface/api.response.meta.interface.ts';
+import { IMeta } from '@common';
 
 import { IBook } from './book.interface';
 
