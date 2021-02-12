@@ -29,8 +29,6 @@ export class CartComponent implements OnInit {
 
   public cart: ICartitem[] = [];
 
-  public readonly bookMap = new Map<number, IBook>();
-
   constructor(
     private readonly _cartService: CartService,
     private readonly _booksService: BooksService,
