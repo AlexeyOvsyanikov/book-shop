@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MatTableDataSource } from '@angular/material/table';
-
 import { Observable } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ConfirmDialogService } from '@common';
 
 import { BooksService } from '@app/books/services/books/books.service';
-import { IBook } from '@app/books';
 
 import { CartService } from '../../services/cart/cart.service';
 import { ICartitem } from '../../interface/cart.item.interface';
+
+import { CartItemsDataSource } from './../../services/cart/cart.items.data.source';
 
 @UntilDestroy()
 @Component({
@@ -22,7 +21,7 @@ import { ICartitem } from '../../interface/cart.item.interface';
 })
 export class CartComponent implements OnInit {
 
-  public itemsSource!: MatTableDataSource<ICartitem>;
+  public itemsSource!: CartItemsDataSource;
 
   public readonly displayedColumns = ['image', 'title', 'price', 'itemTotal', 'amount' , 'remove'];
   public readonly displayedFooterColumns = ['first', 'second', 'trird', 'fourth', 'fifth' , 'sixth'];
@@ -36,9 +35,8 @@ export class CartComponent implements OnInit {
   ) {
     this.cart = this._cartService.items;
 
-    this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
-
-    this._createCartWithFullItemsStruct();
+    this.itemsSource = new CartItemsDataSource(this._booksService, this._cartService);
+    this.itemsSource.load();
   }
 
   public get total$(): Observable<number> {
@@ -54,7 +52,7 @@ export class CartComponent implements OnInit {
         tap((result) => {
           if (result) {
             this._cartService.remove(item.id);
-            this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
+            this.itemsSource.update();
           }
         }),
         untilDestroyed(this),
@@ -72,34 +70,6 @@ export class CartComponent implements OnInit {
 
   public amountChanged(id: number , amount: number): void {
     this._cartService.changeAmount(id , amount);
-  }
-
-  private _createCartWithFullItemsStruct(): void {
-    const ids = this.cart.map((item) => item.id);
-
-    this._booksService.listByIds(ids)
-      .pipe(
-        pluck('books'),
-        tap((books) => {
-          this._transformCartItems(books);
-        }),
-        untilDestroyed(this),
-      )
-      .subscribe();
-  }
-
-  private _transformCartItems(books: IBook[]): void {
-    books.forEach((book) => {
-      const item = this.cart.find((i) => i.id === book.id);
-
-      if (item) {
-        item.title = book.title;
-        item.price = book.price;
-        item.image = item.image || this._booksService.defaultImageUrl;
-      }
-    });
-
-    this.itemsSource = new MatTableDataSource<ICartitem>(this.cart);
   }
 
 }
