@@ -23,13 +23,16 @@ export class GenresService {
       .append('page' , String(page))
       .append('limit' , String(limit));
 
-    return this._http.get<IGenresApiResponse>(`/api/${this._apiGenresUrl}` , {
-      params,
-    });
+    return this._http.get<IGenresApiResponse>(
+      this._apiGenresUrl,
+      {
+        params,
+      }
+    );
   }
 
   public get(id: number): Observable<IGenre> {
-    return this._http.get<IGenre>(`/api/${this._apiGenresUrl}/${id}`);
+    return this._http.get<IGenre>(`${this._apiGenresUrl}/${id}`);
   }
 
 }

@@ -26,7 +26,7 @@ export class BooksService {
       .append('limit' , String(limit));
 
     return this._http.get<IBooksApiResponse>(
-      `/api/${this._apiBooksUrl}`,
+      this._apiBooksUrl,
       {
         params,
       },
@@ -34,7 +34,7 @@ export class BooksService {
   }
 
   public get(id: number): Observable<IBook> {
-    return this._http.get<IBook>(`/api/${this._apiBooksUrl}/${id}`);
+    return this._http.get<IBook>(`${this._apiBooksUrl}/${id}`);
   }
 
   public listByIds(ids: number[]): Observable<IBooksApiResponse> {
@@ -42,7 +42,7 @@ export class BooksService {
     ids.forEach((id) => params = params.append('q[id_in][]', String(id))) ;
 
     return this._http.get<IBooksApiResponse>(
-      `/api/${this._apiBooksUrl}`,
+      `${this._apiBooksUrl}`,
       {
         params,
       },

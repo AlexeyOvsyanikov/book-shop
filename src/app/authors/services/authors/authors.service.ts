@@ -24,7 +24,7 @@ export class AuthorsService {
 
     return this._http
       .get<IAuthorApiResponse>(
-        `/api/${this._apiAuthorsUrl}`,
+        this._apiAuthorsUrl,
       {
         params,
       },
@@ -32,7 +32,7 @@ export class AuthorsService {
   }
 
   public get(id: number): Observable<IAuthor> {
-    return this._http.get<IAuthor>(`/api/${this._apiAuthorsUrl}/${id}`);
+    return this._http.get<IAuthor>(`${this._apiAuthorsUrl}/${id}`);
   }
 
 }
