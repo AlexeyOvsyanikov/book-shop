@@ -10,8 +10,8 @@
         <div>Release date: {{book.release_date | date:'dd/MM/yyyy hh:mm'}}</div>
         <span>Price: {{book.price | currency}}</span>
         <div class="mrt15">
-          <button class="w100" (click)="toggleToCart(book)" mat-raised-button color="{{!book.isInCart ? 'primary' : 'warn'}}">
-            {{!book.isInCart ? 'Add to cart' : 'Remove from cart'}}
+          <button class="w100" (click)="toggleToCart()" mat-raised-button [color]="isInCart ? 'warn' : 'primary'">
+            {{isInCart ? 'Remove from cart' : 'Add to cart'}}
           </button>
         </div>
       </div>

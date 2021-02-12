@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { MatListModule } from '@angular/material/list';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AuthorsComponent } from './components/authors/authors.component';
 import { AuthorComponent } from './components/author/author.component';
+import { AuthorsRoutingModule } from './authors-routing.module';
 
-
+import { PaginatorModule } from '@libs/paginator';
 import { BookModule } from '@libs/book';
 
 @NgModule({
@@ -19,9 +19,14 @@ import { BookModule } from '@libs/book';
   imports: [
     CommonModule,
     RouterModule,
+
+    AuthorsRoutingModule,
+
     BookModule,
+    PaginatorModule,
+
     MatListModule,
-    MatPaginatorModule,
+
   ],
 })
 export class AuthorsModule { }

@@ -8,14 +8,14 @@ import { BookCardComponent } from './components/book-card/book-card.component';
 
 
 @NgModule({
+  declarations: [
+    BookCardComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,
 
     MatButtonModule,
-  ],
-  declarations: [
-    BookCardComponent,
   ],
   exports: [
     BookCardComponent,

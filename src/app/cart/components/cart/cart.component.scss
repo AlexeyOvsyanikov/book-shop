@@ -1,9 +1,15 @@
-@import 'layout-styles';
+.cart-item-total-cell{
+  width: 100px;
+  max-width: 100px;
+  overflow: hidden;
+}
 
-.amount-input{
-  width: 30px;
-  padding: 5px;
-  text-align: center;
-  border-radius: 5px;
-  border: none;
+.cart-item-remove-cell{
+  max-width: 100px;
+  width: 100px;
+}
+
+.cart-item-title-cell{
+  max-width: 300px;
+  width: 300px;
 }

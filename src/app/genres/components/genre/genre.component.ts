@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
-import { CartService } from '@app/cart';
 
 import { GenresService } from '../../services/genres/genres.service';
 import { IGenre } from '../../interface/genre.interface';
@@ -15,24 +13,20 @@ import { IGenre } from '../../interface/genre.interface';
 })
 export class GenreComponent implements OnInit {
 
-  @Input()
   public genre!: IGenre;
 
   constructor(
-    private readonly _genreService: GenresService,
-    private readonly _cartService: CartService,
+    private readonly _genresService: GenresService,
     private readonly _activatedRouted: ActivatedRoute,
   ) { }
 
   public ngOnInit(): void {
-    this._genreService.getGenre(this._activatedRouted.snapshot.params.id)
+    const id = this._activatedRouted.snapshot.params.id;
+
+    this._genresService.get(id)
       .pipe(untilDestroyed(this))
       .subscribe((genre) => {
         this.genre = genre;
-
-        if (this.genre && this.genre.books) {
-          this._cartService.initBooks(this.genre.books);
-        }
       });
   }
 

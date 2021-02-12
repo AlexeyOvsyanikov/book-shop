@@ -1,0 +1,10 @@
+@import './variables.scss';
+
+.black-link{
+  text-decoration: none;
+  color: $black;
+}
+
+.active-route-link{
+  background-color: $active-route;
+}

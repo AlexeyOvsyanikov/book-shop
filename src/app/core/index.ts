@@ -1,3 +1,1 @@
-export * from './interfaces/api.response.interface';
-export * from './interfaces/meta.interface';
-export * from './core.module';
+export { CoreModule } from './core.module';

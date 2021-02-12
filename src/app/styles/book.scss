@@ -1,0 +1,8 @@
+@import './variables.scss';
+
+
+.book-image{
+  background-image: $single-book-default-image-url;
+  width: $single-book-image-width;
+  height: $single-book-image-height;
+}

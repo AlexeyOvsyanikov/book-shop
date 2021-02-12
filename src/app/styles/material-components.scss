@@ -1,0 +1,9 @@
+@import './variables.scss';
+
+.app-mat-divider-border{
+  border-top-color: $black;
+}
+
+th.mat-header-cell.app-mat-table-text-center{
+  text-align: center;
+}

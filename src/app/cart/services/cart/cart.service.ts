@@ -1,107 +1,176 @@
 import { Injectable } from '@angular/core';
 
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { IBook } from '@app/books';
 import { ICart , ICartitem } from '@app/cart';
+
+import { IJSONDataService } from './json.data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
 
-  public cart: ICart = {
-    cartItems: [],
-    cartTotal: 0,
-  };
+  private readonly _prefix = 'cart';
+  private _items: ICartitem[] = [];
+  private _total = 0;
 
-  private _books: IBook[] = [];
+  private readonly _length$ = new BehaviorSubject<number>(0);
+  private readonly _total$ = new BehaviorSubject<number>(0);
 
-  constructor() {
-    const cart = localStorage.getItem('cart');
+  private readonly _bookAdded$ = new BehaviorSubject<number>(-1);
+  private readonly _bookRemoved$ = new BehaviorSubject<number>(-1);
 
-    if (cart) {
-      const deserializedCart = JSON.parse(cart);
-      this.cart.cartItems = deserializedCart.cartItems;
-      this.cart.cartTotal = deserializedCart.cartTotal;
-    } else {
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
+  constructor(
+    private readonly _dataService: IJSONDataService<ICart>,
+  ) {
+    this._load();
   }
 
-  public addToCart(item: ICartitem , book: IBook): void {
-    const checkItem = this.cart.cartItems.find((b) => b.id === item.id);
-
-    if (!checkItem) {
-      this.cart.cartItems.push(item);
-
-      const checkBook = this._books.find((b) => b.id === item.id);
-
-      if (!checkBook) {
-        this._books.push(book);
-      }
-
-      this._reloadCartTotal();
-
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
+  public get total(): number {
+    return this._total;
   }
 
-  public updateItemAmount(up: boolean , item: ICartitem): void {
-    item.amount = up ? item.amount + 1 : item.amount - 1;
-
-    const realItem = this.cart.cartItems.find((i) => i.id === item.id);
-
-    if (realItem) {
-      realItem.amount = item.amount;
-    }
-
-    this._reloadCartTotal();
-    localStorage.setItem('cart', JSON.stringify(this.cart));
+  public get length(): number {
+    return this._items.length;
   }
 
-  public changeAmount(amount: number, id: number): void {
-    const item = this.cart.cartItems.find((i) => i.id === id);
-
-    if (item) {
-      item.amount = amount;
-    }
-
-    this._reloadCartTotal();
-    localStorage.setItem('cart', JSON.stringify(this.cart));
+  public get items(): ICartitem[] {
+    return this._items;
   }
 
-  public removeFromCart(id: number): void {
-    const itemIndex = this.cart.cartItems.findIndex((i) => i.id === id);
-
-    if (itemIndex !== -1) {
-      this.cart.cartItems.splice(itemIndex, 1);
-
-      this._reloadCartTotal();
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
-
-    const checkBook = this._books.find((b) => b.id === id);
-    const checkBookIndex = this._books.findIndex((b) => b.id === id);
-
-    if (checkBook) {
-      checkBook.isInCart = false;
-      this._books.splice(checkBookIndex , 1);
-    }
+  public get length$(): Observable<number> {
+    return this._length$.asObservable();
   }
 
-  public isInCart(book: IBook): boolean {
-    const bookIndex = this.cart.cartItems.findIndex((b) => b.id === book.id);
+  public get total$(): Observable<number> {
+    return this._total$.asObservable();
+  }
+
+  public get bookAdded$(): Observable<number> {
+    return this._bookAdded$.asObservable();
+  }
+
+  public get bookRemoved$(): Observable<number> {
+    return this._bookRemoved$.asObservable();
+  }
+
+  public add(item: ICartitem): void {
+    const checkItem = this._items.find((b) => b.id === item.id);
+
+    if (checkItem) {
+      return;
+    }
+
+    this._items.push(item);
+
+    this._reloadTotal();
+
+    this._emitBookAdded(item.id);
+
+    this._save();
+  }
+
+  public remove(id: number): void {
+    const itemIndex = this._items.findIndex((i) => i.id === id);
+
+    if (itemIndex === -1) {
+      return ;
+    }
+
+    this._items.splice(itemIndex, 1);
+
+    this._reloadTotal();
+
+    this._emitBookRemoved(id);
+
+    this._save();
+  }
+
+  public increase(item: ICartitem): void {
+    item.amount++;
+    this.changeAmount(item.id , item.amount);
+  }
+
+  public decrease(item: ICartitem): void {
+    if (item.amount === 1) {
+      return ;
+    }
+
+    item.amount--;
+    this.changeAmount(item.id , item.amount);
+  }
+
+  public changeAmount(id: number , amount: number): void {
+    const item = this._items.find((i) => i.id === id);
+
+    if (!item) {
+      return ;
+    }
+
+    if (!Number(amount) || Number(amount) < 1) {
+      return ;
+    }
+
+    item.amount = amount;
+
+    this._reloadTotal();
+
+    this._emitTotalAndLengthChanged();
+
+    this._save();
+  }
+
+
+  public check(book: IBook): boolean {
+    const bookIndex = this._items.findIndex((b) => b.id === book.id);
 
     return bookIndex !== -1;
   }
 
-  public initBooks(books: IBook[]): void {
-    this._books = books;
+  private _reloadTotal(): void {
+    this._total = this._items
+      .map((i) => {
+        return i.price ? i.amount * i.price : 0;
+      })
+      .reduce((acc , current) => acc + current , 0);
   }
 
-  private _reloadCartTotal(): void {
-    this.cart.cartTotal = this.cart.cartItems.map((i) => {
-      return i.amount * i.price;
-    }).reduce((acc , current) => acc + current , 0);
+  private _load(): void {
+    const cart = this._dataService.get(this._prefix);
+
+    if (cart) {
+      this._items = cart.items ?? [];
+      this._total = cart.total ?? 0;
+
+      this._emitTotalAndLengthChanged();
+    } else {
+      this._save();
+    }
+  }
+
+  private _save(): void {
+    const items = this._items.map(({ price , title , image , ...item }) => item);
+
+    this._dataService.set(this._prefix, { items , total: this._total });
+  }
+
+  private _emitBookAdded(id: number): void {
+    this._bookAdded$.next(id);
+    this._total$.next(this._total);
+    this._length$.next(this._items.length);
+  }
+
+  private _emitBookRemoved(id: number): void {
+    this._bookRemoved$.next(id);
+    this._total$.next(this._total);
+    this._length$.next(this._items.length);
+  }
+
+  private _emitTotalAndLengthChanged(): void {
+    this._length$.next(this._items.length);
+    this._total$.next(this._total);
   }
 
 }
