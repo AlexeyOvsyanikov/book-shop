@@ -117,7 +117,7 @@ export class CartService {
 
     this._reloadTotal();
 
-    this._updateTotalAndLengthStreams();
+    this._emitTotalAndLengthChanged();
 
     this._save();
   }
@@ -144,7 +144,7 @@ export class CartService {
       this._items = cart.items ?? [];
       this._total = cart.total ?? 0;
 
-      this._updateTotalAndLengthStreams();
+      this._emitTotalAndLengthChanged();
     } else {
       this._save();
     }
@@ -168,7 +168,7 @@ export class CartService {
     this._length$.next(this._items.length);
   }
 
-  private _updateTotalAndLengthStreams(): void {
+  private _emitTotalAndLengthChanged(): void {
     this._length$.next(this._items.length);
     this._total$.next(this._total);
   }
