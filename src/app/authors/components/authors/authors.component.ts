@@ -1,13 +1,11 @@
 
-import { Component, OnInit , Inject} from '@angular/core';
+import { Component, OnInit , Inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@common';
-
-import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
+import { IMeta , DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
 import { AuthorsService } from '../../services/authors/authors.service';
 import { IAuthor } from '../../interface/author.interface';
@@ -18,9 +16,6 @@ import { IAuthorApiResponse } from '../../interface/api.response.interface';
   selector: 'app-authors',
   templateUrl: './authors.component.html',
   styleUrls: ['./authors.component.scss'],
-  providers: [
-    AuthorsService,
-  ],
 })
 export class AuthorsComponent implements OnInit {
 

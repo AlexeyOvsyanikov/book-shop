@@ -18,7 +18,7 @@ export class GenresService {
     private readonly _http: HttpClient,
   ) { }
 
-  public list(page = 1 , limit = 10): Observable<IGenresApiResponse> {
+  public list(page: number = 1 , limit: number = 10): Observable<IGenresApiResponse> {
     const params = new HttpParams()
       .append('page' , String(page))
       .append('limit' , String(limit));
@@ -27,7 +27,7 @@ export class GenresService {
       this._apiGenresUrl,
       {
         params,
-      }
+      },
     );
   }
 

@@ -2,14 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CartComponent , CartService } from '@app/cart';
 
-@UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

@@ -15,8 +15,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 
     MatPaginatorModule,
   ],
-  exports:[
+  exports: [
     PaginatorComponent,
-  ]
+  ],
 })
 export class PaginatorModule { }

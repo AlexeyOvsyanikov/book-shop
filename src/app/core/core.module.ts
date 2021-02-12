@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { API_INTERCEPTOR } from '@common';
 @NgModule({
-  providers:[
-    API_INTERCEPTOR
+  providers: [
+    API_INTERCEPTOR,
   ],
   imports: [
     HttpClientModule,

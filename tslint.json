@@ -93,7 +93,7 @@
     "no-floating-promises": false,
     "no-for-in-array": true,
     "no-implicit-dependencies": [
-      true,
+      false,
       "dev",
       [
         "@lib",
@@ -316,7 +316,7 @@
       2
     ],
     "max-line-length": [
-      true,
+      false,
       {
         "limit": 100,
         "ignore-pattern": "^import { \\w+ |^export |\\*|//|loadChildren"
@@ -475,7 +475,7 @@
       }
     ],
     "ter-max-len": [
-      true,
+      false,
       {
         "code": 100,
         "tabWidth": 2,

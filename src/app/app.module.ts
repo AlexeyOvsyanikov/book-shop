@@ -1,4 +1,3 @@
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { CoreModule } from '@app/core';
@@ -6,7 +5,6 @@ import { LayoutModule } from '@app/layout';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
 
 @NgModule({
   declarations: [

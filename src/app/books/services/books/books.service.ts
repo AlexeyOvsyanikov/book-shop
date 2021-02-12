@@ -20,7 +20,7 @@ export class BooksService {
     private readonly _http: HttpClient,
   ) { }
 
-  public list(page = 1 , limit = 10): Observable<IBooksApiResponse> {
+  public list(page: number = 1 , limit: number = 10): Observable<IBooksApiResponse> {
     const params = new HttpParams()
       .append('page' , String(page))
       .append('limit' , String(limit));

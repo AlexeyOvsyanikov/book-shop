@@ -4,8 +4,7 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta } from '@common';
-import { DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
+import { IMeta , DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
 import { BooksService } from '../../services/books/books.service';
 import { IBook } from '../../interface/book.interface';

@@ -3,11 +3,10 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 

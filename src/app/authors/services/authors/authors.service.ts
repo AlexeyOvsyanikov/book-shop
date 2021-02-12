@@ -17,7 +17,7 @@ export class AuthorsService {
     private readonly _http: HttpClient,
   ) { }
 
-  public list(page = 1 , limit = 10): Observable<IAuthorApiResponse> {
+  public list(page: number = 1 , limit: number = 10): Observable<IAuthorApiResponse> {
     const params = new HttpParams()
       .append('page' , String(page))
       .append('limit' , String(limit));
