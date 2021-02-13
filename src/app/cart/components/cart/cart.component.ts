@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ConfirmDialogService } from '@common';
@@ -23,8 +23,22 @@ export class CartComponent implements OnInit {
 
   public itemsSource!: CartItemsDataSource;
 
-  public readonly displayedColumns = ['image', 'title', 'price', 'itemTotal', 'amount' , 'remove'];
-  public readonly displayedFooterColumns = ['first', 'second', 'trird', 'fourth', 'fifth' , 'sixth'];
+  public readonly displayedColumns = [
+    'image',
+    'title',
+    'price',
+    'itemTotal',
+    'amount',
+    'remove',
+  ];
+  public readonly displayedFooterColumns = [
+    'first',
+    'second',
+    'trird',
+    'fourth',
+    'fifth',
+    'sixth',
+  ];
 
   public cart: ICartitem[] = [];
 
@@ -35,7 +49,10 @@ export class CartComponent implements OnInit {
   ) {
     this.cart = this._cartService.items;
 
-    this.itemsSource = new CartItemsDataSource(this._booksService, this._cartService);
+    this.itemsSource = new CartItemsDataSource(
+      this._booksService,
+      this._cartService,
+    );
     this.itemsSource.load();
   }
 
@@ -43,17 +60,16 @@ export class CartComponent implements OnInit {
     return this._cartService.total$;
   }
 
-  public ngOnInit(): void {
-  }
+  public ngOnInit(): void {}
 
-  public remove(item: ICartitem) : void {
-    this._confirmDialogService.open(`Are you shure to remove "${item.title}" from cart?`)
+  public remove(item: ICartitem): void {
+    this._confirmDialogService
+      .open(`Are you shure to remove "${item.title}" from cart?`)
       .pipe(
-        tap((result) => {
-          if (result) {
-            this._cartService.remove(item.id);
-            this.itemsSource.update();
-          }
+        filter((result) => !!result),
+        tap(() => {
+          this._cartService.remove(item.id);
+          this.itemsSource.update();
         }),
         untilDestroyed(this),
       )
@@ -68,8 +84,8 @@ export class CartComponent implements OnInit {
     this._cartService.decrease(item);
   }
 
-  public amountChanged(id: number , amount: number): void {
-    this._cartService.changeAmount(id , amount);
+  public amountChanged(id: number, amount: number): void {
+    this._cartService.changeAmount(id, amount);
   }
 
 }

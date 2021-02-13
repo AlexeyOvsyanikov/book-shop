@@ -15,6 +15,7 @@ import { ICartitem } from './../../interface/cart.item.interface';
 export class CartItemsDataSource implements DataSource<ICartitem> {
 
   private readonly _items$ = new BehaviorSubject<ICartitem[]>([]);
+  private readonly _itemsLoading$ = new BehaviorSubject<boolean>(true);
 
   constructor(
     private readonly _booksService: BooksService,
@@ -25,15 +26,24 @@ export class CartItemsDataSource implements DataSource<ICartitem> {
     return this._items$.asObservable();
   }
 
-  public connect(collectionViewer: CollectionViewer): Observable<ICartitem[] | readonly ICartitem[]> {
+  public get itemsLoading$(): Observable<boolean> {
+    return this._itemsLoading$.asObservable();
+  }
+
+  public connect(
+    collectionViewer: CollectionViewer,
+  ): Observable<ICartitem[] | readonly ICartitem[]> {
     return this.items$;
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
     this._items$.complete();
+    this._itemsLoading$.complete();
   }
 
   public load(): void {
+    this._itemsLoading$.next(true);
+
     const ids = this._cartService.items.map((item) => item.id);
 
     this._booksService.listByIds(ids)
@@ -41,7 +51,7 @@ export class CartItemsDataSource implements DataSource<ICartitem> {
         pluck('books'),
         tap((books) => {
           this._transform(books);
-          this._items$.next(this._cartService.items);
+          this._emitLoadingcomlete();
         }),
         untilDestroyed(this),
       )
@@ -62,6 +72,11 @@ export class CartItemsDataSource implements DataSource<ICartitem> {
         item.image = item.image || this._booksService.defaultImageUrl;
       }
     });
+  }
+
+  private _emitLoadingcomlete(): void {
+    this._items$.next(this._cartService.items);
+    this._itemsLoading$.next(false);
   }
 
 }

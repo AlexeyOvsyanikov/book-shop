@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { debounceTime, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
 
@@ -17,7 +17,7 @@ export class InputAmountComponent implements OnInit {
   public amount!: number;
 
   @Output()
-  public readonly amountChanged = new EventEmitter<number>();
+  public readonly amountChange = new EventEmitter<number>();
 
   public group: FormGroup;
 
@@ -34,23 +34,22 @@ export class InputAmountComponent implements OnInit {
 
   public increaseAmount(): void {
     this.amount++;
-    this.amountChanged.emit(this.amount);
+    this.amountChange.emit(this.amount);
   }
 
   public decreaseAmount(): void {
     this.amount--;
-    this.amountChanged.emit(this.amount);
+    this.amountChange.emit(this.amount);
   }
 
   private _addOnChange(): void {
     this.group.controls.amount.valueChanges
       .pipe(
         debounceTime(300),
-        tap(
-          (value) => {
-            this.amountChanged.emit(value);
-          },
-        ),
+        distinctUntilChanged(),
+        tap((value) => {
+            this.amountChange.emit(value);
+        }),
         untilDestroyed(this),
     ).subscribe();
   }

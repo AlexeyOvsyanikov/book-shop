@@ -18,18 +18,17 @@ import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
 })
 export class InputAmountAccessorComponent implements OnInit, ControlValueAccessor {
 
-  @Input()
   public amount!: number;
-
-  @Output()
-  public readonly amountChanged = new EventEmitter<number>();
-
   public group: FormGroup;
 
   constructor() {
     this.group = new FormGroup({
       amount: new FormControl(),
     });
+  }
+
+  public ngOnInit(): void {
+    this._addOnChange();
   }
 
   public writeValue(amount: number): void {
@@ -42,18 +41,12 @@ export class InputAmountAccessorComponent implements OnInit, ControlValueAccesso
     this._onTouch = fn;
   }
 
-  public ngOnInit(): void {
-    this._addOnChange();
-  }
-
   public update(amount: number): void {
     this.amount = amount;
 
     if (this.amount < 1) {
       this.amount = 1;
     }
-
-    this.amountChanged.emit(this.amount);
 
     this._onChange(amount);
     this._onTouch(amount);
@@ -70,16 +63,20 @@ export class InputAmountAccessorComponent implements OnInit, ControlValueAccesso
   }
 
   private _addOnChange(): void {
-    this.group.controls.amount.valueChanges
-      .pipe(
-        debounceTime(300),
-        tap(
-          (value) => {
-            this.update(value);
-          },
-        ),
-        untilDestroyed(this),
-    ).subscribe();
+    this.group
+    .controls
+    .amount
+    .valueChanges
+    .pipe(
+      debounceTime(300),
+      tap(
+        (value) => {
+          this.update(value);
+        },
+      ),
+      untilDestroyed(this),
+    )
+    .subscribe();
   }
 
   private _onChange(amount: number): void {}
