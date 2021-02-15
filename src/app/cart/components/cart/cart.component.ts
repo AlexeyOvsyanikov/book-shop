@@ -31,6 +31,7 @@ export class CartComponent implements OnInit {
     'amount',
     'remove',
   ];
+
   public readonly displayedFooterColumns = [
     'first',
     'second',
@@ -53,7 +54,8 @@ export class CartComponent implements OnInit {
       this._booksService,
       this._cartService,
     );
-    this.itemsSource.load();
+
+    this.itemsSource.load(this._cartService.length);
   }
 
   public get total$(): Observable<number> {

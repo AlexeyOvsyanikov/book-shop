@@ -5,7 +5,7 @@
   </button>
 
   <form class="mr10" [formGroup]="group">
-    <input [ngModel]="amount" class="amount-input" formControlName="amount" />
+    <input [(ngModel)]="amount" class="amount-input" formControlName="amount"/>
   </form>
 
   <button (click)="decreaseAmount()" mat-mini-fab color="primary">
@@ -13,4 +13,3 @@
   </button>
 
 </div>
-

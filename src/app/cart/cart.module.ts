@@ -9,7 +9,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { ConfirmComponent } from '@common';
 
-import { InputAmountAccessorComponent } from './components/input-amount-accessor/input-amount-accessor.component';
 import { InputAmountComponent } from './components/input-amount/input-amount.component';
 import { CartRoutingModule } from './cart-routing.module';
 import { CartComponent } from './components/cart/cart.component';
@@ -18,7 +17,6 @@ import { CartComponent } from './components/cart/cart.component';
   declarations: [
     CartComponent,
     InputAmountComponent,
-    InputAmountAccessorComponent,
     ConfirmComponent,
   ],
   imports: [

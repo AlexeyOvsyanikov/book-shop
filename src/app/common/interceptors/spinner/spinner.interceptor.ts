@@ -5,9 +5,11 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpEventType,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 import { SpinnerService } from '../../services/spinner.service';
 
@@ -22,7 +24,17 @@ export class SpinnerInterceptor implements HttpInterceptor {
     const url = request.url;
 
     if (url.indexOf('/api/') !== -1) {
-      // this._spinerService.start();
+      const newRequest = request.clone();
+
+      this._spinerService.start();
+
+      return next.handle(newRequest)
+        .pipe(
+          filter((httpEvent) => httpEvent.type === HttpEventType.Response),
+          tap(() => {
+            this._spinerService.stop();
+          }),
+        );
     }
 
     return next.handle(request);

@@ -41,12 +41,12 @@ export class CartItemsDataSource implements DataSource<ICartitem> {
     this._itemsLoading$.complete();
   }
 
-  public load(): void {
+  public load(limit: number): void {
     this._itemsLoading$.next(true);
 
     const ids = this._cartService.items.map((item) => item.id);
 
-    this._booksService.listByIds(ids)
+    this._booksService.listByIds(ids, limit)
       .pipe(
         pluck('books'),
         tap((books) => {

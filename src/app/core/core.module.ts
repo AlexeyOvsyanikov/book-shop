@@ -8,7 +8,7 @@ import { API_INTERCEPTOR , SPINNER_INTERCEPTOR } from '@common';
 @NgModule({
   providers: [
     API_INTERCEPTOR,
-    SPINNER_INTERCEPTOR,
+    // SPINNER_INTERCEPTOR,
   ],
   imports: [
     HttpClientModule,
