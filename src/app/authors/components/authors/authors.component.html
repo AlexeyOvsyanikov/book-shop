@@ -6,7 +6,7 @@
     <mat-list>
       <ng-container *ngFor="let author of authors">
         <mat-list-item>
-          <a class="black-link" routerLink="{{author.id}}" >
+          <a class="black-link" [routerLink]="['/authors', author.id]" >
             <span>{{author.first_name}} {{author.last_name}}</span>
           </a>
           <mat-divider class="app-mat-divider-border"></mat-divider>
