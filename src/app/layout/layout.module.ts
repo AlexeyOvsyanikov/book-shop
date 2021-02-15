@@ -7,12 +7,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HeaderComponent } from './components/header/header.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -23,9 +26,12 @@ import { HeaderComponent } from './components/header/header.component';
     MatButtonModule,
     MatBadgeModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+
   ],
   exports: [
     HeaderComponent,
+    SpinnerComponent,
   ],
 })
 export class LayoutModule { }

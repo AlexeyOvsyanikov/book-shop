@@ -16,7 +16,7 @@
       "@libs/book": ["app/libs/book/index.ts"],
       "@libs/paginator": ["app/libs/paginator/index.ts"],
       "@libs/dialog": ["app/libs/dialog/index.ts"],
-      "@common": ["app/common/index.ts"],
+      "@common": ["app/common/index.ts"]
     },
     "strict": true,
     "noImplicitReturns": true,

@@ -109,11 +109,11 @@ export class CartService {
       return ;
     }
 
-    if (!Number(amount) || Number(amount) < 1) {
-      return ;
-    }
+    item.amount = Number(amount);
 
-    item.amount = amount;
+    if (!item.amount || item.amount < 1) {
+      item.amount = 1;
+    }
 
     this._reloadTotal();
 
