@@ -1,10 +1,10 @@
-import { Component, OnInit , Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+import { IMeta, DEFAULT_PAGE, DEFAULT_ITEMS_LIMIT } from '@common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta , DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
 import { BooksService } from '../../services/books/books.service';
 import { IBook } from '../../interface/book.interface';
@@ -12,11 +12,11 @@ import { IBooksApiResponse } from '../../interface/api.response.interface';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-books',
-  templateUrl: './books.component.html',
-  styleUrls: ['./books.component.scss'],
+  selector: 'app-book-list',
+  templateUrl: './book-list.container.html',
+  styleUrls: ['./book-list.container.scss'],
 })
-export class BooksComponent implements OnInit {
+export class BookListContainer implements OnInit {
 
   public books!: IBook[];
   public meta!: IMeta;

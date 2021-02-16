@@ -1,0 +1,45 @@
+<h3 class="text-center">
+  {{isEdit ? 'Edit author' : 'Create new author'}}
+</h3>
+
+<div class="d-flex content-center">
+
+  <form
+    [formGroup]="authorCredentialsGroup"
+    class="w35 d-flex align-items-center direction-column author-form">
+
+    <div>
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input
+          [(ngModel)]="author.first_name"
+          (keyup)="markFormEdited()"
+          matInput
+          formControlName="firstName"
+          placeholder="First Name"/>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input
+          [(ngModel)]="author.last_name"
+          (keyup)="markFormEdited()"
+          matInput
+          formControlName="lastName"
+          placeholder="Last Name"/>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button mat-stroked-button color="accent" (click)="saveOrCreate()">
+        {{isEdit ? 'Save' : 'Create'}}
+      </button>
+    </div>
+<!--    <div class="mrt10">-->
+<!--      <mat-error *ngIf="1">{{ showErrorMessage() }}</mat-error>-->
+<!--    </div>-->
+  </form>
+
+</div>

@@ -1,0 +1,25 @@
+<div *ngIf="author">
+
+  <h2 class="text-center">{{ author.first_name }} {{ author.last_name }}</h2>
+
+  <ng-template
+    [ngIf]="author.books?.length"
+    [ngIfThen]="authorBooks"
+    [ngIfElse]="authorBooksEmpty"
+  ></ng-template>
+
+  <ng-template #authorBooksEmpty>
+    <div  class="text-center">This author hasn't books yet</div>
+  </ng-template>
+
+  <ng-template #authorBooks>
+    <div class="d-flex content-center" >
+      <div class="d-flex list-wrapper">
+        <ng-container *ngFor="let book of author.books">
+          <app-book-card [book]="book"></app-book-card>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

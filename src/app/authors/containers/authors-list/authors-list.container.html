@@ -1,0 +1,20 @@
+<ng-container *ngIf="isAuthorsLoaded">
+
+  <div class="d-flex content-center">
+
+    <div class="w35">
+      <div>
+        <a mat-raised-button color="accent" [routerLink]="['/authors/create']">Create new author</a>
+      </div>
+      <mat-list>
+        <ng-container *ngFor="let author of authors">
+          <app-authors-list-item [author]="author"></app-authors-list-item>
+        </ng-container>
+      </mat-list>
+
+      <app-paginator [meta]="meta" (changed)="paginatorPropsChanged($event)"></app-paginator>
+    </div>
+
+  </div>
+
+</ng-container>

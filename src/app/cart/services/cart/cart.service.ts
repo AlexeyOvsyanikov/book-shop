@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { IBook } from '@app/books';
-import { ICart , ICartitem } from '@app/cart';
+import { ICart , ICartItem } from '@app/cart';
 
 import { IJSONDataService } from './json.data.service';
 
@@ -13,7 +13,7 @@ import { IJSONDataService } from './json.data.service';
 export class CartService {
 
   private readonly _prefix = 'cart';
-  private _items: ICartitem[] = [];
+  private _items: ICartItem[] = [];
   private _total = 0;
 
   private readonly _length$ = new BehaviorSubject<number>(0);
@@ -36,7 +36,7 @@ export class CartService {
     return this._items.length;
   }
 
-  public get items(): ICartitem[] {
+  public get items(): ICartItem[] {
     return this._items;
   }
 
@@ -56,7 +56,7 @@ export class CartService {
     return this._bookRemoved$.asObservable();
   }
 
-  public add(item: ICartitem): void {
+  public add(item: ICartItem): void {
     const checkItem = this._items.find((b) => b.id === item.id);
 
     if (checkItem) {
@@ -88,12 +88,12 @@ export class CartService {
     this._save();
   }
 
-  public increase(item: ICartitem): void {
+  public increase(item: ICartItem): void {
     item.amount++;
     this.changeAmount(item.id , item.amount);
   }
 
-  public decrease(item: ICartitem): void {
+  public decrease(item: ICartItem): void {
     if (item.amount === 1) {
       return ;
     }

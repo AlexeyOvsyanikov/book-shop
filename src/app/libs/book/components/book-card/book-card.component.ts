@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 
 import { ConfirmDialogService } from '@common';
-import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { IBook } from '@app/books';
-import { CartService } from '@app/cart';
+import { CartService, ICartItem } from '@app/cart';
+
 @UntilDestroy()
 @Component({
   selector: 'app-book-card',
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookCardComponent implements OnInit {
 
@@ -34,20 +36,21 @@ export class BookCardComponent implements OnInit {
 
   public toggleToCart(book: IBook): void {
     if (!this.isInCart) {
-      this._cartService.add({
+      const newCartItem: ICartItem = {
         id: book.id,
         amount: 1,
         price: book.price,
-      });
+      };
+
+      this._cartService.add(newCartItem);
 
       this.isInCart = true;
     } else {
-      this._confirmDialogService.open(`Are you shure to remove "${book.title}" from cart?`)
+      this._confirmDialogService.open(`Are you sure to remove "${book.title}" from cart?`)
         .pipe(
+          filter((result) => result),
           tap((result) => {
-            if (result) {
-              this._cartService.remove(book.id);
-            }
+            this._cartService.remove(book.id);
           }),
           untilDestroyed(this),
         )

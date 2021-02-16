@@ -1,0 +1,7 @@
+<app-book-list-component [books]="books" ></app-book-list-component>
+<div *ngIf="isBooksLoaded">
+  <app-paginator
+    [meta]="meta"
+    (changed)="paginatorPropsChanged($event)"
+  ></app-paginator>
+</div>

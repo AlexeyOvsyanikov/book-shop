@@ -9,12 +9,12 @@ import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
 import { BooksService, IBook } from '@app/books';
 
 import { CartService } from './cart.service';
-import { ICartitem } from './../../interface/cart.item.interface';
+import { ICartItem } from './../../interface/cart.item.interface';
 
 @UntilDestroy()
-export class CartItemsDataSource implements DataSource<ICartitem> {
+export class CartItemsDataSource implements DataSource<ICartItem> {
 
-  private readonly _items$ = new BehaviorSubject<ICartitem[]>([]);
+  private readonly _items$ = new BehaviorSubject<ICartItem[]>([]);
   private readonly _itemsLoading$ = new BehaviorSubject<boolean>(true);
 
   constructor(
@@ -22,7 +22,7 @@ export class CartItemsDataSource implements DataSource<ICartitem> {
     private readonly _cartService: CartService,
   ) {}
 
-  public get items$(): Observable<ICartitem[]> {
+  public get items$(): Observable<ICartItem[]> {
     return this._items$.asObservable();
   }
 
@@ -32,7 +32,7 @@ export class CartItemsDataSource implements DataSource<ICartitem> {
 
   public connect(
     collectionViewer: CollectionViewer,
-  ): Observable<ICartitem[] | readonly ICartitem[]> {
+  ): Observable<ICartItem[] | readonly ICartItem[]> {
     return this.items$;
   }
 

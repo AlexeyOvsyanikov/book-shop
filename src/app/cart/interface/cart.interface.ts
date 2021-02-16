@@ -1,6 +1,6 @@
-import { ICartitem } from './cart.item.interface';
+import { ICartItem } from './cart.item.interface';
 
 export interface ICart {
-  items: ICartitem[];
+  items: ICartItem[];
   total: number;
 }

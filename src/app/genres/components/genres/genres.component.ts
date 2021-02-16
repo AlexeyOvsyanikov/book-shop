@@ -10,14 +10,12 @@ import { GenresService } from '../../services/genres/genres.service';
 import { IGenre } from '../../interface/genre.interface';
 
 import { IGenresApiResponse } from './../../interface/api.response.interface';
+
 @UntilDestroy()
 @Component({
   selector: 'app-genres',
   templateUrl: './genres.component.html',
   styleUrls: ['./genres.component.scss'],
-  providers: [
-    GenresService,
-  ],
 })
 export class GenresComponent implements OnInit {
 

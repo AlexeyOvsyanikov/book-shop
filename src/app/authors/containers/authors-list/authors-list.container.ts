@@ -1,23 +1,22 @@
+import { Component, OnInit, Inject } from '@angular/core';
 
-import { Component, OnInit , Inject } from '@angular/core';
-
-import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
+import { IMeta, DEFAULT_PAGE, DEFAULT_ITEMS_LIMIT } from '@common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { IMeta , DEFAULT_PAGE , DEFAULT_ITEMS_LIMIT } from '@common';
 
-import { AuthorsService } from '../../services/authors/authors.service';
 import { IAuthor } from '../../interface/author.interface';
+import { AuthorsService } from '../../services/authors/authors.service';
 import { IAuthorApiResponse } from '../../interface/api.response.interface';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-authors',
-  templateUrl: './authors.component.html',
-  styleUrls: ['./authors.component.scss'],
+  selector: 'app-authors-list-container',
+  templateUrl: './authors-list.container.html',
+  styleUrls: ['./authors-list.container.scss'],
 })
-export class AuthorsComponent implements OnInit {
+export class AuthorsListContainer implements OnInit {
 
   public authors!: IAuthor[];
   public meta!: IMeta;

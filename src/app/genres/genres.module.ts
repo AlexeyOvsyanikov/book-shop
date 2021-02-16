@@ -8,6 +8,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { GenresComponent } from './components/genres/genres.component';
 import { GenreComponent } from './components/genre/genre.component';
 import { GenresRoutingModule } from './genres-routing.module';
+import { GenresListContainer } from './containers/genres-list/genres-list.container';
+import { GenresView } from './views/genres/genres.view';
+import { GenreContainer } from './containers/genre/genre.container';
 
 import { BookModule } from '@libs/book';
 import { PaginatorModule } from '@libs/paginator';
@@ -16,6 +19,11 @@ import { PaginatorModule } from '@libs/paginator';
   declarations: [
     GenresComponent,
     GenreComponent,
+
+    GenresListContainer,
+    GenreContainer,
+
+    GenresView,
   ],
   imports: [
     CommonModule,

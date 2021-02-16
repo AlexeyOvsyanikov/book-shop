@@ -1,0 +1,17 @@
+<mat-list-item>
+  <div class="d-flex space-between align-items-baseline  w100">
+
+    <a class="black-link flex-1" [routerLink]="['/authors/details', author.id]">
+      <div>
+        {{author.first_name}} {{author.last_name}}
+      </div>
+    </a>
+    <div>
+      <a [routerLink]="['/authors/edit', author.id]">
+        <mat-icon class="black-text">edit</mat-icon>
+      </a>
+    </div>
+  </div>
+
+  <mat-divider class="app-mat-divider-border"></mat-divider>
+</mat-list-item>

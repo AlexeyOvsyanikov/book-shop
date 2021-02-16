@@ -9,7 +9,7 @@ import { ConfirmDialogService } from '@common';
 import { BooksService } from '@app/books/services/books/books.service';
 
 import { CartService } from '../../services/cart/cart.service';
-import { ICartitem } from '../../interface/cart.item.interface';
+import { ICartItem } from '../../interface/cart.item.interface';
 
 import { CartItemsDataSource } from './../../services/cart/cart.items.data.source';
 
@@ -41,7 +41,7 @@ export class CartComponent implements OnInit {
     'sixth',
   ];
 
-  public cart: ICartitem[] = [];
+  public cart: ICartItem[] = [];
 
   constructor(
     private readonly _cartService: CartService,
@@ -64,7 +64,7 @@ export class CartComponent implements OnInit {
 
   public ngOnInit(): void {}
 
-  public remove(item: ICartitem): void {
+  public remove(item: ICartItem): void {
     this._confirmDialogService
       .open(`Are you shure to remove "${item.title}" from cart?`)
       .pipe(
@@ -78,11 +78,11 @@ export class CartComponent implements OnInit {
       .subscribe();
   }
 
-  public increaseAmount(item: ICartitem): void {
+  public increaseAmount(item: ICartItem): void {
     this._cartService.increase(item);
   }
 
-  public decreaseAmount(item: ICartitem): void {
+  public decreaseAmount(item: ICartItem): void {
     this._cartService.decrease(item);
   }
 

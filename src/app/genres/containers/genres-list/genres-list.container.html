@@ -1,0 +1,21 @@
+<div *ngIf="isGenresLoaded" class="d-flex content-center">
+
+  <div class="w35">
+
+    <mat-list >
+      <ng-container *ngFor="let genre of genres">
+        <mat-list-item>
+          <a class="black-link" [routerLink]="['/genres' , genre.id]">
+            <span>{{ genre.name }}</span>
+          </a>
+          <mat-divider class="app-mat-divider-border"></mat-divider>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+
+    <app-paginator [meta]="meta" (changed)="pageChanged($event)"></app-paginator>
+
+  </div>
+
+</div>
+

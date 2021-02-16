@@ -2,17 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { GenresComponent } from './components/genres/genres.component';
-import { GenreComponent } from './components/genre/genre.component';
+import { GenresListContainer } from './containers/genres-list/genres-list.container';
+import { GenreContainer } from './containers/genre/genre.container';
 
 const routes: Routes = [
   {
     path: '',
-    component: GenresComponent,
-  },
-  {
-    path: ':id',
-    component: GenreComponent,
+    component: GenresListContainer,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: GenresListContainer,
+      },
+      {
+        path: ':id',
+        component: GenreContainer,
+      },
+    ],
   },
 ];
 

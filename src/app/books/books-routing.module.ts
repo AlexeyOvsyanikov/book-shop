@@ -2,18 +2,36 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BooksComponent } from './components/books/books.component';
-import { BookComponent } from './components/book/book.component';
+import { BooksView } from './views/books/books.view';
+import { BookListContainer } from './containers/book-list/book-list.container';
+import { BookContainer } from './containers/book/book.container';
 
 const routes: Routes = [
   {
     path: '',
-    component: BooksComponent,
+    component: BooksView,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: BookListContainer,
+      },
+      {
+        path: 'details/:id',
+        component: BookContainer,
+      },
+      {
+        path: 'edit/:id',
+        component: BookContainer,
+      },
+      {
+        path: 'new',
+        component: BookContainer,
+      },
+    ],
   },
-  {
-    path: ':id',
-    component: BookComponent,
-  },
+
+
 ];
 
 @NgModule({

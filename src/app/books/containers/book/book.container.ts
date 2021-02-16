@@ -3,22 +3,21 @@ import { ActivatedRoute } from '@angular/router';
 
 import { tap } from 'rxjs/operators';
 
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ConfirmDialogService } from '@common';
+import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
 
-import { CartService } from '@app/cart';
+import { CartService, ICartItem } from '@app/cart';
 
 import { BooksService } from '../../services/books/books.service';
 import { IBook } from '../../interface/book.interface';
 
-
 @UntilDestroy()
 @Component({
-  selector: 'app-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.scss'],
+  selector: 'app-book-container',
+  templateUrl: './book.container.html',
+  styleUrls: ['./book.container.scss'],
 })
-export class BookComponent implements OnInit {
+export class BookContainer implements OnInit {
 
   public book!: IBook;
   public isInCart = false;
@@ -34,17 +33,19 @@ export class BookComponent implements OnInit {
     this._initBook();
   }
 
-  public toggleToCart(): void {
-    if (!this.isInCart) {
-      this._cartService.add({
+  public toggleToCart(bookState: boolean): void {
+    if (!bookState) {
+      const newCartItem: ICartItem = {
         id: this.book.id,
         amount: 1,
         price: this.book.price,
-      });
+      };
+
+      this._cartService.add(newCartItem);
 
       this.isInCart = true;
     } else {
-      this._confirmDialogService.open(`Are you shure to remove "${this.book.title}" from cart?`)
+      this._confirmDialogService.open(`Are you sure to remove "${this.book.title}" from cart?`)
         .pipe(
           tap((result) => {
             if (result) {
