@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { IBook } from '../../interface/book.interface';
 import { IBooksApiResponse } from '../../interface/api.response.interface';
+import { IAuthor } from '@app/authors';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,20 @@ export class BooksService {
         params,
       },
     );
+  }
+
+  public update(book: IBook): Observable<IBook> {
+    return this._http.put<IBook>(
+      `${this._apiBooksUrl}/${book.id}`,
+      {
+        title: book.title,
+        description: book.description,
+      },
+    );
+  }
+
+  public delete(id: number): Observable<IBook> {
+    return this._http.delete<IBook>(`${this._apiBooksUrl}/${id}`);
   }
 
 }

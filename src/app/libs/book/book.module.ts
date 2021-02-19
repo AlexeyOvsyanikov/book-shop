@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 
-import { BookCardComponent } from './components/book-card/book-card.component';
+import { BookCardContainer } from './containers/book-card/book-card.container';
+import { BookCardComponent } from './components/book-card.component';
 
 
 @NgModule({
   declarations: [
+    BookCardContainer,
     BookCardComponent,
   ],
   imports: [
@@ -18,6 +20,7 @@ import { BookCardComponent } from './components/book-card/book-card.component';
     MatButtonModule,
   ],
   exports: [
+    BookCardContainer,
     BookCardComponent,
   ],
 })

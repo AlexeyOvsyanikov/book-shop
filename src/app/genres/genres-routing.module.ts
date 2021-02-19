@@ -2,17 +2,33 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { GenresComponent } from './components/genres/genres.component';
-import { GenreComponent } from './components/genre/genre.component';
+import { CanDeactivateGuard } from '@app/common/guards/can-deactivate.guard';
+import { GenreCreateComponent } from '@app/genres/components/genre-create/genre-create.component';
+
+import { GenresListContainer } from './containers/genres-list/genres-list.container';
+import { GenreContainer } from './containers/genre/genre.container';
+import { GenresView } from './views/genres/genres.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: GenresComponent,
-  },
-  {
-    path: ':id',
-    component: GenreComponent,
+    component: GenresView,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: GenresListContainer,
+      },
+      {
+        path: 'details/:id',
+        component: GenreContainer,
+      },
+      {
+        path: 'create',
+        component: GenreCreateComponent,
+        canDeactivate: [CanDeactivateGuard],
+      },
+    ],
   },
 ];
 

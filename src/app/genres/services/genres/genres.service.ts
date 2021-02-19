@@ -35,4 +35,12 @@ export class GenresService {
     return this._http.get<IGenre>(`${this._apiGenresUrl}/${id}`);
   }
 
+  public create(genre: IGenre): Observable<IGenre> {
+    return this._http.post<IGenre>(
+      this._apiGenresUrl,
+      {
+        name: genre.name,
+      },
+    );
+  }
 }

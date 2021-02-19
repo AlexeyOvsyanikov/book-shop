@@ -1,0 +1,15 @@
+<div class="d-flex content-center">
+  <div class="d-flex list-wrapper">
+    <ng-container *ngFor="let book of books">
+      <app-book-card-container [book]="book"></app-book-card-container>
+    </ng-container>
+  </div>
+</div>
+
+
+<div *ngIf="isBooksLoaded">
+  <app-paginator
+    [meta]="meta"
+    (changed)="paginatorPropsChanged($event)"
+  ></app-paginator>
+</div>

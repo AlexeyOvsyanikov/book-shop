@@ -1,0 +1,20 @@
+<div *ngIf="isGenresLoaded" class="d-flex content-center">
+
+  <div class="w35">
+
+    <div>
+      <a mat-raised-button color="accent" [routerLink]="['/genres/create']">Create new genre</a>
+    </div>
+
+    <mat-list >
+      <ng-container *ngFor="let genre of genres; index as i">
+          <app-genre-list-item [genre]="genre"></app-genre-list-item>
+      </ng-container>
+    </mat-list>
+
+    <app-paginator [meta]="meta" (changed)="pageChanged($event)"></app-paginator>
+
+  </div>
+
+</div>
+

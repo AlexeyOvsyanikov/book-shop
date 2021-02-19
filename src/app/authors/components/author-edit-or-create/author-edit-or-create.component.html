@@ -1,0 +1,53 @@
+<h3 class="text-center">
+  {{isEditMode ? 'Edit author' : 'Create new author'}}
+</h3>
+
+<div class="d-flex content-center">
+
+  <form
+    [formGroup]="authorCredentialsGroup"
+    class="w35 d-flex align-items-center direction-column create-update-form"
+  >
+
+    <div class="w50">
+      <mat-form-field class="w100 white-text">
+        <mat-label>First Name</mat-label>
+        <input
+          matInput
+          formControlName="firstName"
+          placeholder="First Name"
+        />
+        <mat-error
+          *ngIf="authorCredentialsGroup.controls.firstName.invalid"
+        >First Name is required!</mat-error>
+
+      </mat-form-field>
+    </div>
+
+    <div class="w50">
+      <mat-form-field class="w100 white-text">
+        <mat-label>Last Name</mat-label>
+        <input
+          matInput
+          formControlName="lastName"
+          placeholder="Last Name"
+        />
+        <mat-error
+          *ngIf="authorCredentialsGroup.controls.lastName.invalid"
+        >Last Name is required!</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button
+        mat-stroked-button
+        color="accent"
+        [disabled]="(isEditMode && !formEdited) || authorCredentialsGroup.invalid"
+        (click)="editOrCreate()"
+      >
+        {{isEditMode ? 'Save' : 'Create'}}
+      </button>
+    </div>
+  </form>
+
+</div>

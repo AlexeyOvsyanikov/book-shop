@@ -7,3 +7,13 @@
 th.mat-header-cell.app-mat-table-th-text-center{
   text-align: center;
 }
+
+.app-mat-snack-bar-success {
+  background-color: $green;
+  color: $white;
+}
+
+.app-mat-snack-bar-error {
+  background-color: $red;
+  color: $white;
+}

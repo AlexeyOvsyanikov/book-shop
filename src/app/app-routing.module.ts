@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { PageNotFoundComponent } from '@common';
+
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +20,10 @@ const routes: Routes = [
   {
     path: 'books',
     loadChildren: () => import('@app/books').then((m) => m.BooksModule),
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
   },
 ];
 

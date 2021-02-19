@@ -1,0 +1,28 @@
+<div *ngIf="book">
+  <div>
+
+    <h2 class="text-center">{{book.title}}</h2>
+
+    <div class="d-flex content-center">
+      <div class="book-image"></div>
+      <div>
+        <div>Writing date: {{book.writing_date | date:'dd/MM/yyyy hh:mm'}}</div>
+        <div>Release date: {{book.release_date | date:'dd/MM/yyyy hh:mm'}}</div>
+        <span>Price: {{book.price | currency}}</span>
+        <div class="mrt15">
+          <button class="w100" (click)="toggleToCart()" mat-raised-button [color]="isInCart ? 'warn' : 'primary'">
+            {{isInCart ? 'Remove from cart' : 'Add to cart'}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex content-center">
+      <div class="d-flex content-center w50">{{book.description}}</div>
+    </div>
+
+  </div>
+
+</div>
+
+

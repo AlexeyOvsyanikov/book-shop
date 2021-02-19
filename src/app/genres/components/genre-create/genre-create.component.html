@@ -1,0 +1,35 @@
+<h3 class="text-center">Create new genre</h3>
+
+<div class="d-flex content-center">
+
+  <form
+    class="w35 d-flex align-items-center direction-column create-update-form"
+  >
+
+    <div class="w50">
+      <mat-form-field class="w100 white-text">
+        <mat-label>Genre Name</mat-label>
+        <input
+          matInput
+          placeholder="Name"
+          [(ngModel)]="genre.name"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="formEdited = true"
+        />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button
+        mat-stroked-button
+        color="accent"
+        name="genreName"
+        [disabled]="!formEdited"
+        (click)="create()"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+
+</div>

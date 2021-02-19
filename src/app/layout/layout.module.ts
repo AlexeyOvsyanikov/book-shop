@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { HeaderComponent } from './components/header/header.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
@@ -27,7 +28,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     MatBadgeModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-
+    MatSnackBarModule,
   ],
   exports: [
     HeaderComponent,

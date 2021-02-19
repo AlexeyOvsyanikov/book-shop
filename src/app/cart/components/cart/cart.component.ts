@@ -9,7 +9,7 @@ import { ConfirmDialogService } from '@common';
 import { BooksService } from '@app/books/services/books/books.service';
 
 import { CartService } from '../../services/cart/cart.service';
-import { ICartitem } from '../../interface/cart.item.interface';
+import { ICartItem } from '../../interface/cart.item.interface';
 
 import { CartItemsDataSource } from './../../services/cart/cart.items.data.source';
 
@@ -35,13 +35,13 @@ export class CartComponent implements OnInit {
   public readonly displayedFooterColumns = [
     'first',
     'second',
-    'trird',
+    'third',
     'fourth',
     'fifth',
     'sixth',
   ];
 
-  public cart: ICartitem[] = [];
+  public cart: ICartItem[] = [];
 
   constructor(
     private readonly _cartService: CartService,
@@ -54,19 +54,21 @@ export class CartComponent implements OnInit {
       this._booksService,
       this._cartService,
     );
-
-    this.itemsSource.load(this._cartService.length);
   }
 
   public get total$(): Observable<number> {
     return this._cartService.total$;
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    if (this._cartService.length) {
+      this.itemsSource.load(this._cartService.length);
+    }
+  }
 
-  public remove(item: ICartitem): void {
+  public remove(item: ICartItem): void {
     this._confirmDialogService
-      .open(`Are you shure to remove "${item.title}" from cart?`)
+      .open(`Are you sure to remove "${item.title}" from cart?`)
       .pipe(
         filter((result) => !!result),
         tap(() => {
@@ -76,14 +78,6 @@ export class CartComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe();
-  }
-
-  public increaseAmount(item: ICartitem): void {
-    this._cartService.increase(item);
-  }
-
-  public decreaseAmount(item: ICartitem): void {
-    this._cartService.decrease(item);
   }
 
   public amountChanged(id: number, amount: number): void {
