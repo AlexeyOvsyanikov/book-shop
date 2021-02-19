@@ -2,13 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
+import { CanDeactivateGuard } from '@app/common/guards/can-deactivate.guard';
+import { GenreCreateComponent } from '@app/genres/components/genre-create/genre-create.component';
+
 import { GenresListContainer } from './containers/genres-list/genres-list.container';
 import { GenreContainer } from './containers/genre/genre.container';
+import { GenresView } from './views/genres/genres.view';
 
 const routes: Routes = [
   {
     path: '',
-    component: GenresListContainer,
+    component: GenresView,
     children: [
       {
         path: '',
@@ -16,8 +20,13 @@ const routes: Routes = [
         component: GenresListContainer,
       },
       {
-        path: ':id',
+        path: 'details/:id',
         component: GenreContainer,
+      },
+      {
+        path: 'create',
+        component: GenreCreateComponent,
+        canDeactivate: [CanDeactivateGuard],
       },
     ],
   },

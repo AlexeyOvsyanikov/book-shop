@@ -10,12 +10,11 @@ import { CartService, ICartItem } from '@app/cart';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-book-card',
-  templateUrl: './book-card.component.html',
-  styleUrls: ['./book-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-book-card-container',
+  templateUrl: './book-card.container.html',
+  styleUrls: ['./book-card.container.scss'],
 })
-export class BookCardComponent implements OnInit {
+export class BookCardContainer implements OnInit {
 
   @Input()
   public book!: IBook;

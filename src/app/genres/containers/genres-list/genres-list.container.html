@@ -2,14 +2,13 @@
 
   <div class="w35">
 
+    <div>
+      <a mat-raised-button color="accent" [routerLink]="['/genres/create']">Create new genre</a>
+    </div>
+
     <mat-list >
-      <ng-container *ngFor="let genre of genres">
-        <mat-list-item>
-          <a class="black-link" [routerLink]="['/genres' , genre.id]">
-            <span>{{ genre.name }}</span>
-          </a>
-          <mat-divider class="app-mat-divider-border"></mat-divider>
-        </mat-list-item>
+      <ng-container *ngFor="let genre of genres; index as i">
+          <app-genre-list-item [genre]="genre"></app-genre-list-item>
       </ng-container>
     </mat-list>
 

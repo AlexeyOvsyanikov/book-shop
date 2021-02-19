@@ -24,13 +24,13 @@ export class BookListContainer implements OnInit {
   public isBooksLoaded = false;
 
   constructor(
-    private readonly _booksService: BooksService,
-
     @Inject(DEFAULT_PAGE)
     private readonly _defaultPage: number,
 
     @Inject(DEFAULT_ITEMS_LIMIT)
     private readonly _defaultItemsLimit: number,
+
+    private readonly _booksService: BooksService,
   ) { }
 
   public ngOnInit(): void {

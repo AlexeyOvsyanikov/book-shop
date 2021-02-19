@@ -1,45 +1,53 @@
 <h3 class="text-center">
-  {{isEdit ? 'Edit author' : 'Create new author'}}
+  {{isEditMode ? 'Edit author' : 'Create new author'}}
 </h3>
 
 <div class="d-flex content-center">
 
   <form
     [formGroup]="authorCredentialsGroup"
-    class="w35 d-flex align-items-center direction-column author-form">
+    class="w35 d-flex align-items-center direction-column create-update-form"
+  >
 
-    <div>
-      <mat-form-field>
+    <div class="w50">
+      <mat-form-field class="w100 white-text">
         <mat-label>First Name</mat-label>
         <input
-          [(ngModel)]="author.first_name"
-          (keyup)="markFormEdited()"
           matInput
           formControlName="firstName"
-          placeholder="First Name"/>
+          placeholder="First Name"
+        />
+        <mat-error
+          *ngIf="authorCredentialsGroup.controls.firstName.invalid"
+        >First Name is required!</mat-error>
+
       </mat-form-field>
     </div>
 
-    <div>
-      <mat-form-field>
+    <div class="w50">
+      <mat-form-field class="w100 white-text">
         <mat-label>Last Name</mat-label>
         <input
-          [(ngModel)]="author.last_name"
-          (keyup)="markFormEdited()"
           matInput
           formControlName="lastName"
-          placeholder="Last Name"/>
+          placeholder="Last Name"
+        />
+        <mat-error
+          *ngIf="authorCredentialsGroup.controls.lastName.invalid"
+        >Last Name is required!</mat-error>
       </mat-form-field>
     </div>
 
     <div>
-      <button mat-stroked-button color="accent" (click)="saveOrCreate()">
-        {{isEdit ? 'Save' : 'Create'}}
+      <button
+        mat-stroked-button
+        color="accent"
+        [disabled]="(isEditMode && !formEdited) || authorCredentialsGroup.invalid"
+        (click)="editOrCreate()"
+      >
+        {{isEditMode ? 'Save' : 'Create'}}
       </button>
     </div>
-<!--    <div class="mrt10">-->
-<!--      <mat-error *ngIf="1">{{ showErrorMessage() }}</mat-error>-->
-<!--    </div>-->
   </form>
 
 </div>

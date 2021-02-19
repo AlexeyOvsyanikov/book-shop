@@ -1,9 +1,9 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   Input,
   Output ,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { UntilDestroy } from '@ngneat/until-destroy';

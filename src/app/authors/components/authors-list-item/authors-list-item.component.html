@@ -8,8 +8,9 @@
     </a>
     <div>
       <a [routerLink]="['/authors/edit', author.id]">
-        <mat-icon class="black-text">edit</mat-icon>
+        <mat-icon class="blue-text">edit</mat-icon>
       </a>
+      <mat-icon (click)="remove()" class="red-text cursor-pointer">clear</mat-icon>
     </div>
   </div>
 

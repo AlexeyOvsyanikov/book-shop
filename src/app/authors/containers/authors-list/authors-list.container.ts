@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { tap } from 'rxjs/operators';
+import { tap, filter, mergeMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { IMeta, DEFAULT_PAGE, DEFAULT_ITEMS_LIMIT } from '@common';
+import { IMeta, DEFAULT_PAGE, DEFAULT_ITEMS_LIMIT, ConfirmDialogService } from '@common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { IAuthor } from '../../interface/author.interface';
@@ -24,7 +25,9 @@ export class AuthorsListContainer implements OnInit {
   public isAuthorsLoaded = false;
 
   constructor(
+    private readonly _router: Router,
     private readonly _authorsService: AuthorsService,
+    private readonly _confirmDialogService: ConfirmDialogService,
 
     @Inject(DEFAULT_PAGE)
     private readonly _defaultPage: number,
@@ -43,6 +46,24 @@ export class AuthorsListContainer implements OnInit {
 
   public paginatorPropsChanged(meta: IMeta): void {
     this._loadAuthors(meta.page , meta.limit)
+      .subscribe();
+  }
+
+  public delete(author: IAuthor , index: number): void {
+    const authorFirstLastName = `${author.first_name} ${author.last_name}`;
+    const id = author.id;
+
+    this._confirmDialogService
+      .open(`Are you sure to remove "${authorFirstLastName}" ?`)
+      .pipe(
+        filter((result) => result),
+        mergeMap((result) => this._authorsService.delete(id)),
+        tap(() => {
+          this.authors.splice(index , 1);
+          this.meta.records--;
+        }),
+        untilDestroyed(this),
+      )
       .subscribe();
   }
 

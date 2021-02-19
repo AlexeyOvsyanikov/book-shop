@@ -27,12 +27,32 @@ export class AuthorsService {
         this._apiAuthorsUrl,
       {
         params,
-      },
-      );
+      });
   }
 
   public get(id: number): Observable<IAuthor> {
     return this._http.get<IAuthor>(`${this._apiAuthorsUrl}/${id}`);
+  }
+
+  public update(author: IAuthor): Observable<IAuthor> {
+    return this._http.put<IAuthor>(
+      `${this._apiAuthorsUrl}/${author.id}`,
+      {
+        first_name: author.first_name,
+        last_name: author.last_name,
+      },
+    );
+  }
+
+  public delete(id: number): Observable<IAuthor> {
+    return this._http.delete<IAuthor>(`${this._apiAuthorsUrl}/${id}`);
+  }
+
+  public create(author: IAuthor): Observable<IAuthor> {
+    return this._http.post<IAuthor>(`${this._apiAuthorsUrl}`, {
+      first_name: author.first_name,
+      last_name: author.last_name,
+    });
   }
 
 }

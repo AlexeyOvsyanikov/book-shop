@@ -7,8 +7,8 @@
         <a mat-raised-button color="accent" [routerLink]="['/authors/create']">Create new author</a>
       </div>
       <mat-list>
-        <ng-container *ngFor="let author of authors">
-          <app-authors-list-item [author]="author"></app-authors-list-item>
+        <ng-container *ngFor="let author of authors; index as i">
+          <app-authors-list-item [author]="author" (authorRemove)="delete(author , i)"></app-authors-list-item>
         </ng-container>
       </mat-list>
 

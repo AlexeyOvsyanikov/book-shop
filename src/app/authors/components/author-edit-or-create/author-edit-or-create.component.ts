@@ -1,90 +1,84 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder
+} from '@angular/forms';
 
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { debounceTime, tap } from 'rxjs/operators';
 
-import { UntilDestroy , untilDestroyed } from '@ngneat/until-destroy';
-import { ICanComponentDeactivate } from '@common';
+import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 
-import { AuthorsService } from '../../services/authors/authors.service';
 import { IAuthor } from '../../interface/author.interface';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-edit-create-component',
+  selector: 'app-author-edit-or-create-component',
   templateUrl: './author-edit-or-create.component.html',
   styleUrls: ['./author-edit-or-create.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthorEditOrCreateComponent implements OnInit , ICanComponentDeactivate {
+export class AuthorEditOrCreateComponent implements OnInit , OnChanges {
 
-  private _formEdited = false;
+  @Input()
+  public author!: IAuthor;
 
-  public author: IAuthor = {
-    id: -1,
-    first_name: '',
-    last_name: '',
-  };
+  @Input()
+  public isEditMode = false;
 
-  public isEdit = false;
+  @Output()
+  public readonly editedOrCreated = new EventEmitter<void>();
 
-  public authorCredentialsGroup: FormGroup;
+  public formEdited = false;
+
+  public authorCredentialsGroup!: FormGroup;
 
   constructor(
-    private readonly _authorsService: AuthorsService,
-    private readonly _route: ActivatedRoute,
     private readonly _formBuilder: FormBuilder,
-  ) {
+  ) { }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this._initForm();
+  }
+
+  public ngOnInit(): void { }
+
+  public editOrCreate(): void {
+    if (this.authorCredentialsGroup.valid) {
+      this.editedOrCreated.emit();
+    }
+  }
+
+  private _initForm(): void {
     this.authorCredentialsGroup = this._formBuilder.group({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('' , [Validators.required]),
+      firstName: new FormControl(this.author.first_name, [Validators.required]),
+      lastName: new FormControl(this.author.last_name , [Validators.required]),
     });
-    this.isEdit = this._route.snapshot.data.edit;
+    this._addListenersToAuthorFields();
   }
 
-  public ngOnInit(): void {
-    if (this.isEdit) {
-      this._loadAuthor();
-    }
-  }
-
-  public get authorId(): number {
-    return this._route.snapshot.params.id;
-  }
-
-  public saveOrCreate(): void {
-    console.log(this.authorCredentialsGroup.valid);
-  }
-
-  public canDeactivate(): Observable<boolean> | Promise<true> | boolean {
-    return !this._formEdited;
-  }
-
-  public markFormEdited(): void {
-    console.log('EDITED!');
-    this._formEdited = true;
-  }
-
-  public showErrorMessage(): string {
-    if (
-      this.authorCredentialsGroup.controls.firstName.hasError('required') ||
-      this.authorCredentialsGroup.controls.lastName.hasError('required')
-    ) {
-      return 'Please check all fields';
-    }
-
-    return '';
-  }
-
-  private _loadAuthor(): void {
-    this._authorsService.get(this.authorId)
+  private _addListenersToAuthorFields(): void {
+    this.authorCredentialsGroup.valueChanges
       .pipe(
-        tap((author) => {
-          this.author = author;
+        debounceTime(300),
+        tap(({ firstName , lastName }) => {
+          this.author.first_name = firstName;
+          this.author.last_name = lastName;
+          this.formEdited = true;
         }),
         untilDestroyed(this),
-      ).subscribe();
+      )
+      .subscribe();
   }
 
 }

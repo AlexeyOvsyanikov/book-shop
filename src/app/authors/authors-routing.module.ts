@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthorsView } from '@app/authors/views/authors/authors.view';
 import { CanDeactivateGuard } from '@app/common/guards/can-deactivate.guard';
 
-import { AuthorEditOrCreateComponent } from './components/author-edit-or-create/author-edit-or-create.component';
+import { AuthorEditOrCreateContainer } from './containers/author-edit-or-create/author-edit-or-create.container';
 import { AuthorsListContainer } from './containers/authors-list/authors-list.container';
 import { AuthorContainer } from './containers/author/author.container';
 
@@ -26,15 +26,12 @@ const routes: Routes = [
       },
       {
         path: 'create',
-        component: AuthorEditOrCreateComponent,
-        data: {
-          edit: false,
-        },
+        component: AuthorEditOrCreateContainer,
         canDeactivate: [CanDeactivateGuard],
       },
       {
         path: 'edit/:id',
-        component: AuthorEditOrCreateComponent,
+        component: AuthorEditOrCreateContainer,
         data: {
           edit: true,
         },

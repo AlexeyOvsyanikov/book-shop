@@ -17,7 +17,7 @@ import { SpinnerService } from '../../services/spinner.service';
 export class SpinnerInterceptor implements HttpInterceptor {
 
   constructor(
-    private readonly _spinerService: SpinnerService,
+    private readonly _spinnerService: SpinnerService,
   ) {}
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -26,13 +26,13 @@ export class SpinnerInterceptor implements HttpInterceptor {
     if (url.indexOf('/api/') !== -1) {
       const newRequest = request.clone();
 
-      this._spinerService.start();
+      this._spinnerService.start();
 
       return next.handle(newRequest)
         .pipe(
           filter((httpEvent) => httpEvent.type === HttpEventType.Response),
           tap(() => {
-            this._spinerService.stop();
+            this._spinnerService.stop();
           }),
         );
     }

@@ -35,7 +35,7 @@ export class CartComponent implements OnInit {
   public readonly displayedFooterColumns = [
     'first',
     'second',
-    'trird',
+    'third',
     'fourth',
     'fifth',
     'sixth',
@@ -54,19 +54,21 @@ export class CartComponent implements OnInit {
       this._booksService,
       this._cartService,
     );
-
-    this.itemsSource.load(this._cartService.length);
   }
 
   public get total$(): Observable<number> {
     return this._cartService.total$;
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    if (this._cartService.length) {
+      this.itemsSource.load(this._cartService.length);
+    }
+  }
 
   public remove(item: ICartItem): void {
     this._confirmDialogService
-      .open(`Are you shure to remove "${item.title}" from cart?`)
+      .open(`Are you sure to remove "${item.title}" from cart?`)
       .pipe(
         filter((result) => !!result),
         tap(() => {
@@ -76,14 +78,6 @@ export class CartComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe();
-  }
-
-  public increaseAmount(item: ICartItem): void {
-    this._cartService.increase(item);
-  }
-
-  public decreaseAmount(item: ICartItem): void {
-    this._cartService.decrease(item);
   }
 
   public amountChanged(id: number, amount: number): void {
